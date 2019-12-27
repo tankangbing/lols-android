@@ -1,0 +1,323 @@
+package com.example.onlinelearnActivity;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import android.app.ListActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.Fragment.FCourseWare;
+import com.example.Fragment.FOther;
+import com.example.entity.Item;
+import com.example.jsonReturn.CourseReturn;
+import com.example.onlinelearn.R;
+import com.example.onlinelearnActivity.courseWare.CourseWareChapter;
+import com.example.tree.PDFOutlineElement;
+import com.example.tree.TreeListViewAdapter;
+import com.example.util.ApplicationUtil;
+import com.example.util.FinalStr;
+import com.example.util.HttpUtil;
+import com.example.util.JsonUtil;
+import com.example.util.SysUtil;
+
+public class CourseActivity extends ListActivity implements OnClickListener
+{
+	private ApplicationUtil hdaplication;//全局参数对象
+	Map<String,Object> mydata = new HashMap<String,Object>();//数据
+	private Handler handler;//异步刷新组件
+	Item nodes =new Item();
+	List<Item> tItems=new ArrayList<Item>();
+	FCourseWare fCourseWare=null;
+	ListView lView=null;
+	FOther fOther=null;
+	
+	
+	private ArrayList<PDFOutlineElement> mPdfOutlinesCount = new ArrayList<PDFOutlineElement>();
+	private ArrayList<PDFOutlineElement> mPdfOutlines = new ArrayList<PDFOutlineElement>();
+	private TreeListViewAdapter treeViewAdapter = null;
+	
+	 private void initialData() {
+			PDFOutlineElement pdfOutlineElement1=new PDFOutlineElement("01", "关键类", false	, false, "00", 0,false);
+			PDFOutlineElement pdfOutlineElement2=new PDFOutlineElement("02", "应用程序组件", false	, true, "00", 0,false);
+			PDFOutlineElement pdfOutlineElement3=new PDFOutlineElement("03", "Activity和任务", false	, true, "00", 0,false);
+			PDFOutlineElement pdfOutlineElement4=new PDFOutlineElement("04", "激活组件：intent", true	, false, "02", 1,false);
+			PDFOutlineElement pdfOutlineElement5=new PDFOutlineElement("05", "关闭组件", true	, false, "02", 1,false);
+			PDFOutlineElement pdfOutlineElement6=new PDFOutlineElement("06", "manifest文件", true	, false, "02", 1,false);
+			PDFOutlineElement pdfOutlineElement7=new PDFOutlineElement("07", "Intent过滤器", true	, false, "02", 1,false);
+			PDFOutlineElement pdfOutlineElement8=new PDFOutlineElement("08", "Affinity（吸引力）和新任务", true	, false, "03", 1,false);
+			PDFOutlineElement pdfOutlineElement9=new PDFOutlineElement("09", "加载模式", true	, true, "03", 1,false);
+			PDFOutlineElement pdfOutlineElement10=new PDFOutlineElement("10", "加载模式孩子1", true	, true, "09", 2,false);
+			PDFOutlineElement pdfOutlineElement11=new PDFOutlineElement("11", "加载模式孩子2", true	, true, "09", 2,false);
+			PDFOutlineElement pdfOutlineElement12=new PDFOutlineElement("12", "加载模式孩子2的孩子1", true	, false, "11", 3,false);
+			PDFOutlineElement pdfOutlineElement13=new PDFOutlineElement("13", "加载模式孩子2的孩子2", true	, false, "11", 3,false);
+			PDFOutlineElement pdfOutlineElement14=new PDFOutlineElement("14", "加载模式孩子1的孩子1", true	, false, "10", 3,false);
+			PDFOutlineElement pdfOutlineElement15=new PDFOutlineElement("15", "加载模式孩子1的孩子2", true	, false, "10", 3,false);
+			PDFOutlineElement pdfOutlineElement16=new PDFOutlineElement("16", "加载模式孩子1的孩子3", true	, false, "10", 3,false);
+			PDFOutlineElement pdfOutlineElement17=new PDFOutlineElement("17", "加载模式孩子1的孩子4", true	, false, "10", 3,false);
+			PDFOutlineElement pdfOutlineElement18=new PDFOutlineElement("18", "加载模式孩子1的孩子5", true	, false, "10", 3,false);
+			PDFOutlineElement pdfOutlineElement19=new PDFOutlineElement("19", "加载模式孩子1的孩子6", true	, false, "10", 3,false);
+			mPdfOutlinesCount.add(pdfOutlineElement1);
+			mPdfOutlinesCount.add(pdfOutlineElement2);
+			mPdfOutlinesCount.add(pdfOutlineElement3);
+		
+			
+			mPdfOutlines.add(pdfOutlineElement1);
+			mPdfOutlines.add(pdfOutlineElement2);
+			mPdfOutlines.add(pdfOutlineElement4);
+			mPdfOutlines.add(pdfOutlineElement5);
+			mPdfOutlines.add(pdfOutlineElement6);
+			mPdfOutlines.add(pdfOutlineElement7);
+			mPdfOutlines.add(pdfOutlineElement3);
+			mPdfOutlines.add(pdfOutlineElement8);
+			mPdfOutlines.add(pdfOutlineElement9);
+			mPdfOutlines.add(pdfOutlineElement10);
+			mPdfOutlines.add(pdfOutlineElement11);
+			mPdfOutlines.add(pdfOutlineElement12);
+			mPdfOutlines.add(pdfOutlineElement13);
+			mPdfOutlines.add(pdfOutlineElement14);
+			mPdfOutlines.add(pdfOutlineElement15);
+			mPdfOutlines.add(pdfOutlineElement16);
+			mPdfOutlines.add(pdfOutlineElement17);
+			mPdfOutlines.add(pdfOutlineElement18);
+			mPdfOutlines.add(pdfOutlineElement19);
+			
+			
+			
+		}
+	 
+	 @Override
+		protected void onListItemClick(ListView l, View v, int position, long id) {
+			super.onListItemClick(l, v, position, id);
+			Toast.makeText(this, mPdfOutlinesCount.get(position).getOutlineTitle(), 2000).show();
+
+			if (!mPdfOutlinesCount.get(position).isMhasChild()) {
+				Toast.makeText(this, mPdfOutlinesCount.get(position).getOutlineTitle(), 2000);
+				return;
+			}
+			
+
+			if (mPdfOutlinesCount.get(position).isExpanded()) {
+				mPdfOutlinesCount.get(position).setExpanded(false);
+				PDFOutlineElement pdfOutlineElement=mPdfOutlinesCount.get(position);
+				ArrayList<PDFOutlineElement> temp=new ArrayList<PDFOutlineElement>();
+				
+				for (int i = position+1; i < mPdfOutlinesCount.size(); i++) {
+					if (pdfOutlineElement.getLevel()>=mPdfOutlinesCount.get(i).getLevel()) {
+						break;
+					}
+					temp.add(mPdfOutlinesCount.get(i));
+				}
+				
+				mPdfOutlinesCount.removeAll(temp);
+				
+				treeViewAdapter.notifyDataSetChanged();
+				
+			} else {
+				mPdfOutlinesCount.get(position).setExpanded(true);
+				int level = mPdfOutlinesCount.get(position).getLevel();
+				int nextLevel = level + 1;
+				
+
+				for (PDFOutlineElement pdfOutlineElement : mPdfOutlines) {
+					int j=1;
+					if (pdfOutlineElement.getParent()==mPdfOutlinesCount.get(position).getId()) {
+						pdfOutlineElement.setLevel(nextLevel);
+						pdfOutlineElement.setExpanded(false);
+						mPdfOutlinesCount.add(position+j, pdfOutlineElement);
+						j++;
+					}			
+				}
+				treeViewAdapter.notifyDataSetChanged();
+			}
+		}
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.course);
+		setCache();
+		hdaplication = (ApplicationUtil)getApplication();
+		lView=(ListView)findViewById(R.id.cw_listView1);
+		updateUi();
+		getData();
+
+	}
+	public void setCache() {
+		hdaplication = (ApplicationUtil) getApplication();
+		hdaplication.addActivity(this);
+	}
+	public void updateUi(){
+		handler = new Handler() {
+			public void handleMessage(Message msg) {  
+	        	switch (msg.what) {
+				case 0: //无法加载数据
+					Toast.makeText(CourseActivity.this,"无法加载数据,请检查你的网络连接或者联系我们！",
+							Toast.LENGTH_LONG).show();
+					break;
+				case 1: //加载数据
+					setList();
+					break;
+				case 2:
+					Toast.makeText(CourseActivity.this, "没有相关的未学课程信息", Toast.LENGTH_LONG).show();
+					break;
+	        }
+	        super.handleMessage(msg);
+	     }
+		};
+	}
+	
+	public void setList(){
+    	try {
+    		if(tItems!=null&&tItems.size()>0){
+    			lView.setItemsCanFocus(false); 
+    			
+    			initialData();
+    	        treeViewAdapter = new TreeListViewAdapter(this, R.layout.list_item,
+    					mPdfOutlinesCount);
+    			setListAdapter(treeViewAdapter);
+    			registerForContextMenu(getListView());
+    			
+    			
+    			lView.setAdapter(treeViewAdapter);
+//    			lView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,getData1()));
+    		}else {
+				sendMessage(2);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			sendMessage(2);
+		}
+	}
+	
+	private List<String> getData1(){
+        
+        List<String> data = new ArrayList<String>();
+        data.add("测试数据1");
+        data.add("测试数据2");
+        data.add("测试数据3");
+        data.add("测试数据4");
+         
+        return data;
+    }
+	
+	 public void sort(List<Map<String,Object>> list) {
+	        Collections.sort(list, new Comparator<Map<String, Object>>() {
+	            public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+	                return (Integer) o1.get("index") > (Integer) o2
+	                        .get("index") ? ((Integer) o1.get("index") == (Integer) o2
+	                        .get("index") ? 0 : 1) : -1;
+	            }
+	        });
+	}
+	 
+	private void sendMessage(int str){
+		Message msg = new Message();
+		msg.what = str;
+		CourseActivity.this.handler.sendMessage(msg);  
+	}
+	
+	public void getData(){
+		new Thread(new Runnable() {
+            @Override  
+            public void run() {
+            	Map<String,Object> map = new HashMap<String,Object>(0);
+            	map.put("coursewareId", "ff8080815b0e7c36015b0e7d07060000");
+            	map.put("classId", "4028809a591a843e01594e92f074249f");
+            	String result = HttpUtil.getResultByPost(FinalStr.ACCESSPRYPATH+"/appControler.do?showCatalog",
+            			map,CourseActivity.this,null);
+            	if(SysUtil.isBlank(result) || "NO_NET".equals(result)){
+            		sendMessage(0);           		
+				}else{
+					CourseReturn courseReturn=JsonUtil.parserString(result, CourseReturn.class);
+					if(null != courseReturn && courseReturn.getCode()!=null){
+						if("1".equals(courseReturn.getCode())){
+			    			tItems=courseReturn.getCourseItemList();
+							sendMessage(1);
+						}else{
+							sendMessage(2);
+						}
+					}else{
+						sendMessage(0);
+					}
+					
+				}
+            }  
+        }).start();	
+	}
+	
+
+	private class MyAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            //return lists.size();
+        	return 1;
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            View v;
+            if (view==null){
+                v=View.inflate(CourseActivity.this,R.layout.course_ware_lv_item,null);
+
+            }else {
+                v=view;
+            }
+            TextView tv_seekname=(TextView)v.findViewById(R.id.cw_item_tv);
+            LinearLayout lLayout=(LinearLayout)v.findViewById(R.id.cw_item_ll);
+            if(tItems.get(4).getItem()!=null){
+            	for(int j=0;j<tItems.get(4).getItem().size();j++){
+                	TextView tView=new TextView(getApplicationContext());
+                	//tView.setClickable(true);
+                	tView.setTag(tItems.get(4).getItem().get(j).getItem().get(0).getIdentifier()+"#"+tItems.get(4).getItem().get(j).getTitle());
+                	tView.setOnClickListener(CourseActivity.this);
+                	tView.setText(tItems.get(4).getItem().get(j).getTitle());
+                	tView.setTextColor(R.drawable.black);
+                	tView.setTextSize(16);
+                	lLayout.addView(tView);
+                	
+                }
+            }
+            tv_seekname.setTextSize(16);
+            tv_seekname.setText(tItems.get(4).getTitle());
+            return v;
+        }
+    }
+
+
+	public void onClick(View v) {
+		Intent intent =new Intent();
+		intent.setClass(CourseActivity.this, CourseWareChapter.class);
+		String tagStrings=v.getTag()+"";
+		String [] tStrings=tagStrings.split("#");
+		intent.putExtra("title", tStrings[1]);
+		hdaplication.setBehaviorId(tStrings[0]);
+		startActivity(intent);
+	}
+
+}

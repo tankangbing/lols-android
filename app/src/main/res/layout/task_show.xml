@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 做作业页面 -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff" >
+    <!-- 顶部 -->
+    <RelativeLayout
+        android:id="@+id/tshow_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:paddingRight="10dp"
+        >
+        <ImageView
+            android:paddingLeft="20dp"
+            android:paddingRight="5dp"
+            android:id="@+id/tshow_retrun"
+            android:onClick="click"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/icon_back"
+            />
+        <TextView
+            android:layout_toRightOf="@id/tshow_retrun"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="做作业"
+            android:gravity="center"
+            android:textColor="#fff"/>
+        <TextView
+            android:id="@+id/tshow_tj"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="提交"
+            android:onClick="click"
+            android:layout_alignParentRight="true"
+            android:paddingRight="10dp"
+            android:gravity="center"
+            android:textColor="#fff"/>
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="50dp"
+        android:id="@+id/tshow_sv"
+        android:background="#eaeaea"
+        android:layout_below="@id/tshow_title" >
+        <LinearLayout
+            android:id="@+id/tshow_ll_con"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:paddingBottom="10dp"
+                android:padding="5sp">
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/tshow_nr"
+                    android:layout_width="wrap_content"
+                    android:textColor="#5b5b5b"
+                    android:textSize="16sp"
+                    android:lineSpacingMultiplier="1.5"
+                    android:layout_height="wrap_content"
+                    android:text=""/>
+                <TextView
+                    android:id="@+id/tshow_xzfj"
+                    android:layout_below="@+id/tshow_nr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" 下载附件"
+                    android:onClick="click"
+                    android:paddingLeft="10dp"
+                    android:gravity="center"
+                    android:textColor="#1296db"
+                    android:drawableLeft="@drawable/loadfj"/>
+            </RelativeLayout>
+            <com.example.view.NoScrollListView
+                android:id="@+id/tshow_lv_xx"
+                android:divider="#bab8b8"
+                android:dividerHeight="0px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#fff"
+                android:fastScrollEnabled="false"
+                android:listSelector="@android:color/transparent"
+                android:paddingTop="10sp"
+                ></com.example.view.NoScrollListView>
+            <TextView
+                android:id="@+id/tshow_tjfj"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10sp"
+                android:text="添加附件"
+                android:visibility="gone"
+                android:onClick="click"
+                android:gravity="center"
+                android:textColor="#1296db"
+                android:drawableLeft="@drawable/addfj"/>
+            <LinearLayout
+                android:id="@+id/tshow_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+    <LinearLayout
+        android:id="@+id/tshow_sl_ll"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.example.view.WrappingSlidingDrawer
+            android:id="@+id/sliding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:content="@+id/allApps"
+            android:handle="@+id/tshow_rl_bottom"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/allApps"
+                android:layout_gravity="start"
+                android:orientation="vertical"
+                android:layout_width="300dp"
+                android:layout_height="450dp">
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="450dp"
+                    android:background="#fff"
+                    android:scrollbars="vertical" >
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#fff"
+                        android:id="@+id/tshow_ll"
+                        android:orientation="vertical" >
+                    </TableLayout>
+                </ScrollView>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/tshow_rl_bottom"
+                android:background="#fff"
+                android:layout_alignParentBottom="true"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp">
+                <TextView
+                    android:id="@+id/tshow_sd_bor"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#bab8b8"/>
+
+                <TextView
+                    android:paddingLeft="20dp"
+                    android:text="题型 ：0/0"
+                    android:id="@+id/tshow_sd_tx"
+                    android:textSize="15sp"
+                    android:gravity="center"
+                    android:layout_toLeftOf="@+id/tshow_btn_exerciseCard"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:layout_alignParentRight="true"
+                    android:drawableLeft="@drawable/exe"
+                    android:id="@+id/tshow_btn_exerciseCard"
+                    android:textSize="15sp"
+                    android:gravity="center"
+                    android:paddingRight="20dp"
+                    android:paddingLeft="20dp"
+                    android:textColor="#000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+            </RelativeLayout>
+        </com.example.view.WrappingSlidingDrawer>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,10 @@
+<resources>
+
+    <!--
+         Customize dimensions originally defined in res/values/dimens.xml (such as
+         screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
+         针对720x1280mdip的屏幕（10英寸平板）
+    -->
+    <dimen name="activity_horizontal_margin">128dp</dimen>
+    <dimen name="post_media_height">400dp</dimen>
+</resources>

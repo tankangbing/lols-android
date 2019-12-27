@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="vertical" >  -->
+<!-- <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/drawerlayout"
+    android:layout_height="match_parent"> -->
+    
+<!--  开始练习     -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+    
+     <RelativeLayout 
+         android:id="@+id/p_ll_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+        >
+        <ImageView 
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/p_retrun"
+            android:onClick="click"  
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/icon_back"
+            />
+        <RelativeLayout android:id="@+id/c_rl"
+	        android:background="@color/colorPrimary"
+	        android:gravity="center"
+	        android:layout_toLeftOf="@+id/p_btn_sign"
+	        android:layout_toRightOf="@id/p_retrun"
+	        android:layout_width="fill_parent" android:layout_height="50dp">
+	        <RadioGroup  android:id="@+id/practice_rg"
+	                    android:layout_width="wrap_content" android:layout_height="50dp"
+	                    android:orientation="horizontal">
+	            <RadioButton android:button="@null"  android:text="   答题     " 
+	                         android:id="@+id/btn_do" android:background="@drawable/color" android:checked="true"
+	                         android:layout_width="wrap_content" android:layout_height="fill_parent"/>
+	            <RadioButton android:button="@null" android:text="   背题    "
+	                         android:id="@+id/btn_recite" android:background="@drawable/color"
+	                         android:layout_width="wrap_content" android:layout_height="fill_parent"/>
+	        </RadioGroup>
+	    </RelativeLayout>
+         <TextView
+            android:text="☆"
+        	android:onClick="click"
+        	android:id="@+id/p_btn_sign"
+        	android:layout_alignParentRight="true"
+            android:textSize="20sp"
+        	android:gravity="center"
+			android:textColor="#fff"
+			android:paddingRight="20dp"
+        	android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" /> 
+    </RelativeLayout>
+        
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="50dp"
+        android:id="@+id/p_sv"
+   		android:background="#F2F2F2"
+        android:layout_below="@id/p_ll_title" >
+        <LinearLayout 
+        	android:id="@+id/p_ll_con"
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="vertical" >
+       
+	        <RelativeLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+    		android:background="#fff"
+	        android:paddingBottom="10dp"
+	        android:padding="5sp">
+		        <TextView 
+		            android:layout_marginTop="10dp"
+		            android:id="@+id/pq_nr"
+		            android:layout_width="wrap_content"
+			        android:textColor="#5b5b5b"
+			        android:textSize="16sp"
+			        android:lineSpacingMultiplier="1.5"
+		            android:layout_height="wrap_content"
+		            android:text=""/>
+	    	</RelativeLayout>
+		  	<LinearLayout 
+		  	    android:id="@+id/p_ll_option"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="vertical">
+		    </LinearLayout>
+	    <com.example.view.NoScrollListView 
+	        android:id="@+id/lv_xx"  
+		    android:divider="#bab8b8"  
+		    android:dividerHeight="0px"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical"
+    		android:background="#fff"
+	        android:fastScrollEnabled="false"
+	        android:listSelector="@android:color/transparent" 
+        	android:paddingTop="10sp"
+	        ></com.example.view.NoScrollListView>
+	    <LinearLayout 
+    		android:background="#fff"
+	        android:orientation="horizontal"
+	        android:layout_height="wrap_content"
+	        android:layout_width="match_parent">
+	       <!--  <Button 
+		        android:onClick="click"
+		        android:layout_marginRight="10dp"
+		        android:id="@+id/p_btn_syt"
+		        android:layout_height="40dp"
+		        android:layout_width="wrap_content"
+	            android:textColor="#999999"
+			            android:background="@drawable/button_border"
+		        android:layout_weight="1"
+		        android:text="上一题"/> -->
+
+		    <Button
+		        android:layout_marginLeft="20dp"
+		        android:layout_marginRight="20dp"
+	        	android:layout_marginTop="10dp"
+		        android:id="@+id/p_btn_tj"
+		        android:layout_width="wrap_content"
+			            android:textColor="#fff"
+		        android:layout_height="40dp"
+		        android:layout_weight="1"
+		        android:onClick="click" 
+	        	android:layout_marginBottom="10dp"
+    			android:background="@drawable/shape" 
+		        android:text="提交" />
+
+		   <!--  <Button 
+		        android:onClick="click"
+		        android:id="@+id/p_btn_xyt"
+		        android:layout_marginLeft="10dp"
+		        android:layout_height="40dp"
+		        android:layout_width="wrap_content"
+	            android:textColor="#999999"
+			            android:background="@drawable/button_border"
+		        android:layout_weight="1"
+		        android:text="下一题"/> -->
+	    </LinearLayout>
+	    <LinearLayout
+	        android:id="@+id/p_ll_status"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"	        
+	        android:visibility="gone"
+	        android:padding="15sp"
+	        android:orientation="vertical"
+        	>
+		    <LinearLayout 
+	        	android:id="@+id/p_ll_da"
+		        android:orientation="vertical"
+		        android:layout_width="match_parent"
+		        android:visibility="gone"
+		        android:layout_height="wrap_content">
+		        <TextView 
+	        	    android:paddingTop="10dp"
+	        	    android:layout_width="wrap_content"
+	        	    android:layout_height="wrap_content"
+	        	    android:textColor="#3c3c3c"
+	        	    android:text="答案"/>
+	        	<TextView 
+	        	    android:id="@+id/p_tv_da"
+	        	    android:layout_width="wrap_content"
+	        	    	android:textColor="#7b7b7b"
+	        	    android:layout_height="wrap_content"
+	        	    android:text="略"/>
+		    </LinearLayout>
+		    <LinearLayout 
+		        android:orientation="vertical"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content">
+		        <TextView 
+	        	    android:paddingTop="10dp"
+	        	    android:layout_width="wrap_content"
+	        	    android:layout_height="wrap_content"
+	        	    android:textColor="#3c3c3c"
+	        	    android:text="解析"/>
+	        	<TextView 
+	        	    android:id="@+id/p_tv_jx"
+	        	    android:layout_width="wrap_content"
+	        	    	android:textColor="#7b7b7b"
+	        	    android:layout_height="wrap_content"
+	        	    android:text="略"/>
+		    </LinearLayout>
+        	<LinearLayout 
+		        android:orientation="vertical"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content">
+		        <TextView 
+	        	    android:paddingTop="10dp"
+	        	    android:layout_width="wrap_content"
+	        	    android:layout_height="wrap_content"
+	        	    android:textColor="#3c3c3c"
+	        	    android:text="知识点"/>
+	        	<TextView 
+	        	    android:id="@+id/p_tv_zsd"
+	        	    android:layout_width="wrap_content"
+	        	    	android:textColor="#7b7b7b"
+	        	    android:layout_height="wrap_content"
+	        	    android:text="相关知识点"/>
+		    </LinearLayout>
+        	<LinearLayout 
+	        	android:id="@+id/p_ll_tj"
+		        android:orientation="vertical"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content">
+	        	<TextView 
+	        	    android:paddingTop="10dp"
+	        	    android:layout_width="wrap_content"
+	        	    android:layout_height="wrap_content"
+	        	    android:textColor="#3c3c3c"
+	        	    android:text="答题统计"/>
+	        	<LinearLayout 
+			        android:orientation="horizontal"
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content">
+			        <TextView 
+	        	    android:layout_width="wrap_content"
+	        	    android:layout_height="wrap_content"
+	        	    	android:textColor="#7b7b7b"
+	        	    android:text="正确率："/>
+			        <TextView 
+	        	    android:id="@+id/p_tv_zql"
+	        	    android:textColor="@color/colorPrimary"
+	        	    android:layout_width="wrap_content"
+	        	    android:layout_height="wrap_content"
+	        	    android:text="0"/>
+			    </LinearLayout>
+			    <LinearLayout 
+			        android:orientation="horizontal"
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content">
+		        	<TextView 
+		        	    android:layout_width="wrap_content"
+		        	    android:layout_height="wrap_content"
+	        	    	android:textColor="#7b7b7b"
+		        	    android:text="答题次数："/>
+			        <TextView 
+		        	    android:id="@+id/p_tv_dtcs"
+		        	    android:textColor="#000"
+		        	    android:layout_width="wrap_content"
+		        	    android:layout_height="wrap_content"
+		        	    android:text="0"/>
+			    </LinearLayout>
+			    <LinearLayout 
+			        android:orientation="horizontal"
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content">
+		        	<TextView 
+		        	    android:layout_width="wrap_content"
+		        	    android:layout_height="wrap_content"
+	        	    	android:textColor="#7b7b7b"
+		        	    android:text="错误："/>
+			        <TextView 
+		        	    android:id="@+id/p_tv_cw"
+		        	    android:textColor="#ff5151"
+		        	    android:layout_width="wrap_content"
+		        	    android:layout_height="wrap_content"
+		        	    android:text="0"/>
+			    </LinearLayout>
+			    <LinearLayout 
+			        android:orientation="horizontal"
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content">
+		        	<TextView 
+		        	    android:layout_width="wrap_content"
+		        	    android:layout_height="wrap_content"
+	        	    	android:textColor="#7b7b7b"
+		        	    android:text="正确："/>
+			        <TextView 
+		        	    android:id="@+id/p_tv_zq"
+		        	    android:textColor="#1AFD9C"
+		        	    android:layout_width="wrap_content"
+		        	    android:layout_height="wrap_content"
+		        	    android:text="0"/>
+			    </LinearLayout>
+			    <LinearLayout 
+			        android:orientation="horizontal"
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content">
+		        	<TextView 
+		        	    android:layout_width="wrap_content"
+		        	    android:layout_height="wrap_content"
+	        	    	android:textColor="#7b7b7b"
+		        	    android:text="最近一次："/>
+			        <TextView 
+		        	    android:id="@+id/p_tv_zjyc"
+		        	    android:textColor="#000"
+		        	    android:layout_width="wrap_content"
+		        	    android:layout_height="wrap_content"
+		        	    android:text="0"/>
+			    </LinearLayout>
+		    </LinearLayout>
+    	</LinearLayout>
+    </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/p_sl_ll"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+    <com.example.view.WrappingSlidingDrawer
+            android:id="@+id/sliding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:content="@+id/allApps"
+            android:handle="@+id/p_rl_bottom"
+            android:orientation="vertical" >
+
+	      <RelativeLayout
+                android:id="@+id/allApps"
+		        android:layout_gravity="start"
+		        android:orientation="vertical"
+		        android:layout_width="300dp"
+		        android:layout_height="450dp">
+				<!-- <RelativeLayout android:id="@+id/c_rl"
+			        android:background="#3193d4"
+			        android:layout_width="fill_parent" android:layout_height="40dp">
+
+			        <RadioGroup  android:id="@+id/practice_rg"
+			                    android:layout_width="fill_parent" android:layout_height="40dp"
+			                    android:orientation="horizontal">
+			            <RadioButton android:button="@null" android:layout_weight="1" android:text="全部"
+			                         android:id="@+id/p_questionSum" android:background="@drawable/color" android:checked="true"
+			                         android:layout_width="wrap_content" android:layout_height="fill_parent"/>
+			            <RadioButton android:button="@null" android:layout_weight="1" android:text="未做"
+			                         android:id="@+id/p_questionNodo" android:background="@drawable/color"
+			                         android:layout_width="wrap_content" android:layout_height="fill_parent"/>
+			            <RadioButton android:button="@null" android:layout_weight="1" android:text="标记"
+			                         android:id="@+id/p_questionSign" android:background="@drawable/color"
+			                         android:layout_width="wrap_content" android:layout_height="fill_parent"/>
+			            <RadioButton android:button="@null" android:layout_weight="1" android:text="错题"
+			                         android:id="@+id/p_questionWrong" android:background="@drawable/color"
+			                         android:layout_width="wrap_content" android:layout_height="fill_parent"/>
+			        </RadioGroup>
+			    </RelativeLayout> -->
+			    <ScrollView
+			        android:layout_width="match_parent"
+				    android:layout_height="450dp"
+					android:background="#fff"
+				    android:scrollbars="vertical" >
+					<TableLayout
+					    android:layout_width="match_parent"
+					    android:layout_height="wrap_content"
+					    android:background="#fff"
+					    android:id="@+id/pe_ll"
+					    android:orientation="vertical" >
+					</TableLayout>
+			    </ScrollView>
+
+			</RelativeLayout>
+           <RelativeLayout
+		        android:id="@+id/p_rl_bottom"
+		        android:background="#fff"
+		        android:layout_alignParentBottom="true"
+		        android:layout_width="fill_parent"
+		        android:layout_height="50dp">
+			    <TextView
+			        android:id="@+id/p_sd_bor"
+			        android:layout_width="match_parent"
+			        android:layout_height="1px"
+			        android:background="#bab8b8"/>
+			   <!--  <ImageButton
+			        android:focusable="true"
+       				android:focusableInTouchMode="true"
+		        	android:id="@+id/p_btn_sign"
+		            android:textSize="15sp"
+		        	android:gravity="center"
+					android:textColor="#fff"
+					android:paddingLeft="20dp"
+		        	android:layout_weight="1"
+		        	android:background="#00000000"
+		        	android:src="@drawable/sign"
+		            android:layout_width="wrap_content"
+		            android:layout_height="match_parent"
+			        /> -->
+			    <!-- <TextView
+		            android:layout_alignParentLeft="true"
+			            android:text="  蓝：当前  绿：答对  红：答错"
+			            android:textSize="13sp"
+			            android:textColor="#424242"
+			            android:gravity="center_vertical"
+			            android:layout_width="wrap_content"
+			            android:layout_height="match_parent" /> -->
+
+		        <TextView
+		            	android:paddingLeft="20dp"
+			            android:text="题型 ：0/0"
+			        	android:id="@+id/p_sd_tx"
+			            android:textSize="15sp"
+			        	android:gravity="center"
+			        	android:layout_toLeftOf="@+id/p_btn_exerciseCard"
+			            android:textColor="@color/colorPrimary"
+			            android:layout_width="wrap_content"
+			            android:layout_height="match_parent" />
+		        <!-- <TextView
+			            android:text=" 0/0"
+			        	android:id="@+id/p_sd_dq"
+			            android:textSize="15sp"
+			        	android:gravity="center"
+			        	android:layout_toRightOf="@id/p_sd_tx"
+			        	android:paddingRight="20dp"
+			            android:textColor="#3193d4"
+			            android:layout_width="wrap_content"
+			            android:layout_height="match_parent" /> -->
+		        <TextView
+		            android:layout_alignParentRight="true"
+			            android:drawableLeft="@drawable/exe"
+			        	android:id="@+id/p_btn_exerciseCard"
+			            android:textSize="15sp"
+			        	android:gravity="center"
+			        	android:paddingRight="20dp"
+			        	android:paddingLeft="20dp"
+			            android:textColor="#000"
+			            android:layout_width="wrap_content"
+			            android:layout_height="match_parent" />
+		    </RelativeLayout>
+        </com.example.view.WrappingSlidingDrawer>
+    </LinearLayout>
+</RelativeLayout>
+<!-- <RelativeLayout
+        android:layout_gravity="start"
+        android:orientation="vertical"
+        android:layout_width="300dp"
+        android:layout_height="match_parent">
+	<TextView 
+	    android:text="答题卡"
+        android:layout_height="50dp"
+        android:layout_width="match_parent"/>
+    <ScrollView
+        android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+		android:background="#fff"
+	    android:scrollbars="vertical" > 
+		<TableLayout 
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:background="#fff"
+		    android:id="@+id/pe_ll"
+    		android:stretchColumns="*"
+		    android:orientation="vertical" >
+		</TableLayout>
+    </ScrollView>
+	
+</RelativeLayout> -->
+
+<!-- </android.support.v4.widget.DrawerLayout> -->
+<!-- </ScrollView> -->

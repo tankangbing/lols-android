@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@color/color_white">
+    <TextView
+        android:id="@+id/title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="正在下载"
+        style="@style/large_textSize"
+        android:textColor="@color/color_333333"
+        android:textStyle="bold"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="#E4E4E4" />
+
+    <com.example.view.numberProgress.NumberProgressBar
+        android:id="@+id/number_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        custom:progress_current="0"
+        custom:progress_max ="100"
+        custom:progress_unreached_color ="@color/color_f2f4f7"
+        custom:progress_reached_color ="@color/colorPrimary"
+        custom:progress_text_size ="15sp"
+        custom:progress_text_color ="@color/colorPrimary"
+        custom:progress_reached_bar_height ="3dp"
+        custom:progress_unreached_bar_height ="2.5dp" />
+
+    <TextView
+        android:id="@+id/message_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/error"
+        android:textSize="18sp" />
+
+</LinearLayout>
+

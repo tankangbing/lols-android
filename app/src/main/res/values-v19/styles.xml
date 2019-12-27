@@ -1,0 +1,11 @@
+<resources>
+
+    <!--
+        版本19以上
+    -->
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="@style/BaseAppTheme">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+    </style>
+</resources>

@@ -1,0 +1,70 @@
+<RelativeLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/background_shadow"
+	android:padding="30dp">
+
+	<LinearLayout
+	    android:id="@+id/captchalib_layout"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+ 	    android:layout_centerInParent="true"
+		android:orientation="vertical"
+		android:background="@drawable/corners_5r"
+		android:padding="0.1dp">
+		
+	    <RelativeLayout 
+	        android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="2">
+			
+	        <com.example.view.captchalib.SwipeCaptchaView
+				android:id="@+id/swipeCaptchaView1"
+			    android:layout_width="match_parent"
+			    android:layout_height="200dp"
+			    android:layout_centerHorizontal="true"
+			    android:scaleType="centerCrop"
+			    app:captchaHeight="30dp"
+			    app:captchaWidth="30dp"
+			    android:background="@drawable/corners_5r"/>
+
+	        <ImageView
+	            android:id="@+id/btnChange"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentRight="true"
+	            android:layout_margin="10dp" 
+	            android:scaleType="fitXY"
+	            android:background="@drawable/icon_refresh"/>
+
+
+	    </RelativeLayout>
+	    <RelativeLayout 
+	        android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1">
+	   
+	        <com.example.view.captchalib.ValidateSeekBar
+			  	android:id="@+id/dragBar1"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_marginLeft="5dp"
+			    android:layout_marginRight="5dp"
+			    android:paddingLeft="5dp"
+			    android:paddingRight="5dp"
+			    android:maxHeight="30dip"
+  				android:minHeight="30dip"
+			   	android:thumbOffset="5dp"
+			    android:layout_centerHorizontal="true"
+			    android:progressDrawable="@drawable/captchalib_seekbar_bg"
+			    android:thumb="@drawable/captchalib_thumb_bg"/> 
+	    
+	    </RelativeLayout>
+       
+	</LinearLayout>
+
+
+</RelativeLayout>

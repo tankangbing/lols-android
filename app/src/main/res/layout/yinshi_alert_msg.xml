@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/alertmsgMain"
+        style="@style/app_exit_layout"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:background="@drawable/shape3" >
+    <TextView
+        android:id="@+id/alertmsgTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:padding="5dp"
+        android:text="提示"
+        android:textColor="#333"
+        style="@style/app_tar" />
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="400dp">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/alertmsgContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:padding="10dp"
+                android:text=""
+                android:textColor="#333"
+                android:lineSpacingExtra="2dp"
+                android:lineSpacingMultiplier="1.5"
+                style="@style/app_copyright" />
+        </LinearLayout>
+    </ScrollView>
+    <TextView
+        android:id="@+id/alert_tv"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#d6d4d4"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/alertmsgCancel"
+            style="@style/app_exit_bnt_layout"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:visibility="visible"
+            android:onClick="alertmsgCancel"
+            android:background="#fff"
+            android:text="退出APP"
+            android:textColor="#333"/>
+        <TextView
+
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="#d6d4d4"/>
+        <Button
+            android:id="@+id/alertmsgSure"
+            style="@style/app_exit_bnt_layout"
+            android:background="#fff"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:onClick="alertmsgSure"
+            android:text="同意"
+            android:textColor="#1f8be7"
+            android:visibility="visible" />
+    </LinearLayout>
+</LinearLayout>

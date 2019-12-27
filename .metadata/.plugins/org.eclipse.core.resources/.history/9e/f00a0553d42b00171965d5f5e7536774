@@ -1,0 +1,3 @@
+package com.hnjk.lols_v;
+
+/**	 * 传入我们的普通bean，转化为我们排序后的Node	 * @param datas	 * @param defaultExpandLevel	 * @return	 * @throws IllegalArgumentException	 * @throws IllegalAccessException	 */	public static <T> List<Node> getSortedNodes(List<T> datas,			int defaultExpandLevel) throws IllegalArgumentException,			IllegalAccessException	{		List<Node> result = new ArrayList<Node>();		//将用户数据转化为List<Node>以及设置Node间关系		List<Node> nodes = convetData2Node(datas);		//拿到根节点		List<Node> rootNodes = getRootNodes(nodes);		//排序		for (Node node : rootNodes)		{			addNode(result, node, defaultExpandLevel, 1);		}		return result;	}

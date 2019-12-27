@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--  测试页面     -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+        android:background="#fff" >
+
+    <!--&lt;!&ndash; 顶部 &ndash;&gt;
+    <RelativeLayout
+         android:id="@+id/cw_test_title"
+        android:layout_width="match_parent"
+         android:layout_height="52dp"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:paddingRight="10dp"
+        >
+        <ImageView 
+            android:paddingLeft="20dp"
+            android:paddingRight="5dp"
+            android:id="@+id/cw_test_retrun"
+            android:onClick="click"  
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/icon_back"
+            />
+        <TextView 
+            android:layout_toRightOf="@id/cw_test_retrun"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="测试"
+            android:gravity="center"
+            android:textColor="#fff"/>
+    </RelativeLayout>-->
+	<ScrollView
+	        android:layout_width="match_parent"
+	        android:layout_height="fill_parent"
+	        android:id="@+id/p_sv"
+        	android:background="#fff">
+        <LinearLayout 
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+   			android:orientation="vertical"
+            >
+    <RelativeLayout 
+        android:id="@+id/cw_test_xxxz"
+        android:onClick="click"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="#81c3f7">
+        <TextView 
+			android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:layout_centerInParent="true"
+	        android:text=" 学习须知"
+	        android:drawableLeft="@drawable/laba24"
+	        android:textColor="#fff"/>
+    </RelativeLayout>
+     <!-- 测试入口 -->
+            <RelativeLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+android:background="@color/colorPrimary"
+android:gravity="center"
+android:padding="26dp"
+                >
+<RelativeLayout
+android:id="@+id/cw_test_iv"
+android:layout_height="170dp"
+android:layout_width="170dp"
+                    android:background="@drawable/u22"
+android:layout_marginBottom="26dp"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+>
+<TextView
+android:id="@+id/cw_test_total"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:textColor="#fff"
+                        android:text="满分--分"
+                        android:textSize="16sp"
+                        android:layout_centerHorizontal="true"
+/>
+<TextView
+android:id="@+id/cw_test_count"
+android:layout_below="@id/cw_test_total"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:textColor="#fff"
+                        android:textSize="16sp"
+                        android:text="共--题"
+                        android:layout_centerHorizontal="true"
+/>
+</RelativeLayout>
+                <Button
+                    android:id="@+id/cw_test_do"
+                    android:layout_below="@id/cw_test_iv"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:paddingLeft="50dp"
+                    android:paddingRight="50dp"
+                    android:textColor="@color/colorPrimary"
+                    android:onClick="click"
+android:background="@drawable/shape3"
+                    android:layout_centerHorizontal="true"
+                    android:text="开始测试"/>
+            </RelativeLayout>
+
+            <!-- 统计  -->
+	<LinearLayout
+        android:padding="10dp"
+        android:layout_marginTop="30dp"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content">
+     	<!-- 最近得分  -->
+     	<RelativeLayout 
+     	    android:layout_weight="1"
+     	    android:layout_width="match_parent"
+     	    android:layout_height="wrap_content"
+     	    android:gravity="center"
+     	    >
+            <RelativeLayout
+                android:id="@+id/cw_test_zj_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/u36" />
+            </RelativeLayout>
+     	    <TextView
+     	        android:id="@+id/cw_test_tv_zj"
+                android:layout_marginTop="5sp"
+     	        android:layout_width="wrap_content"
+     	        android:layout_height="wrap_content"
+     	        android:layout_below="@id/cw_test_zj_rl"
+			    android:layout_centerHorizontal="true"
+                android:textColor="#999999"
+     	        android:text="最近得分"/>
+     	    <TextView 
+     	        android:id="@+id/cw_test_tv_zj2"
+     	        android:layout_width="wrap_content"
+     	        android:layout_height="wrap_content"
+     	        android:layout_below="@id/cw_test_tv_zj"
+                android:textColor="#333333"
+     	        android:layout_centerHorizontal="true"
+     	        android:text="--分"/>
+     	</RelativeLayout>
+     	<!-- 最高得分  -->
+     	<RelativeLayout 
+     	    android:layout_weight="1"
+     	    android:layout_width="match_parent"
+     	    android:layout_height="wrap_content"
+     	    android:gravity="center"
+     	    >
+            <RelativeLayout
+                android:id="@+id/cw_test_zg_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/u37" />
+            </RelativeLayout>
+     	    <TextView
+     	        android:id="@+id/cw_test_tv_zg"
+     	        android:layout_width="wrap_content"
+                android:layout_marginTop="5sp"
+     	        android:layout_height="wrap_content"
+     	        android:layout_below="@id/cw_test_zg_rl"
+                android:textColor="#999999"
+			    android:layout_centerHorizontal="true"
+     	        android:text="最高得分"/>
+     	    <TextView 
+     	        android:id="@+id/cw_test_tv_zg2"
+     	        android:layout_width="wrap_content"
+                android:textColor="#333333"
+     	        android:layout_height="wrap_content"
+     	        android:layout_below="@id/cw_test_tv_zg"
+     	        android:layout_centerHorizontal="true"
+     	        android:text="--分"/>
+     	</RelativeLayout>
+     	<!-- 平均分  -->
+     	<RelativeLayout 
+     	    android:layout_weight="1"
+     	    android:layout_width="match_parent"
+     	    android:layout_height="wrap_content"
+     	    android:gravity="center"
+     	    >
+            <RelativeLayout
+                android:id="@+id/cw_test_pj_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/u38" />
+            </RelativeLayout>
+     	    <TextView
+     	        android:id="@+id/cw_test_tv_pj"
+                android:layout_marginTop="5sp"
+     	        android:layout_width="wrap_content"
+     	        android:layout_height="wrap_content"
+     	        android:layout_below="@id/cw_test_pj_rl"
+                android:textColor="#999999"
+			    android:layout_centerHorizontal="true"
+     	        android:text="平均得分"/>
+     	    <TextView 
+     	        android:id="@+id/cw_test_tv_pj2"
+     	        android:layout_width="wrap_content"
+     	        android:layout_height="wrap_content"
+     	        android:layout_below="@id/cw_test_tv_pj"
+                android:textColor="#333333"
+     	        android:layout_centerHorizontal="true"
+     	        android:text="--分"/>
+     	</RelativeLayout>
+	</LinearLayout>
+	<LinearLayout 
+	    android:id="@+id/cw_test_lookLL"
+	    android:layout_width="match_parent"
+	    android:layout_height="50dp"
+	    android:padding="10dp"
+		android:orientation="vertical">
+	    <TextView 
+	        android:id="@+id/cw_test_lookTJ"
+	        android:onClick="click"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center"
+	        android:textSize="15sp"
+	        android:textColor="@color/colorPrimary"
+	        android:text="查看测试统计"/>
+	</LinearLayout>
+        <LinearLayout
+            android:id="@+id/cw_test_Tj"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:textColor="@color/unselect_color"
+                android:background="#F0F0F0"
+                android:text="测试趋势图"
+                android:gravity="center"/>
+            <com.example.view.GraphView
+                android:id="@+id/cw_test_gv"
+                android:background="#fff"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:paddingBottom="5dp"
+                    >
+            </com.example.view.GraphView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="#F0F0F0"
+                android:textColor="@color/unselect_color"
+                android:text="作答分数表"
+                android:gravity="center"/>
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/cw_test_zdfsb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:orientation="vertical" android:layout_width="match_parent"
+                    android:background="#fff" android:onClick="click"
+                    android:layout_height="match_parent">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp">
+                        <TextView
+                            android:id="@+id/cw_test_cs"
+                            android:layout_width="80dp"
+                            android:textColor="#000"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="次数"/>
+
+                        <TextView
+                            android:layout_toRightOf="@+id/cw_test_cs"
+                            android:layout_width="80dp"
+                            android:textColor="#000"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="时间"/>
+
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="match_parent"
+                            android:textColor="#000"
+                            android:layout_alignParentRight="true"
+                            android:gravity="center"
+                            android:text="得分"/>
+                    </RelativeLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="#000"/>
+                </LinearLayout>
+            </LinearLayout>
+		</LinearLayout>
+	</LinearLayout>
+</ScrollView>
+</RelativeLayout>

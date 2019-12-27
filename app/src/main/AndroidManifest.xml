@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.onlinelearn">
+
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
+        tools:node="remove" />
+    <uses-permission
+        android:name="android.permission.ACCESS_COARSE_LOCATION"
+        tools:node="remove" />
+    <uses-permission
+        android:name="android.permission.ACCESS_WIFI_STATE"
+        tools:node="remove" />
+    <uses-permission
+        android:name="android.permission.CHANGE_WIFI_STATE"
+        tools:node="remove" />
+    <uses-permission
+        android:name="android.permission.READ_PHONE_STATE"
+        tools:node="remove" />
+    <uses-sdk
+        android:minSdkVersion="16"
+        android:targetSdkVersion="26" />
+
+    <!-- Required -->
+    <permission
+        android:name="${applicationId}.permission.JPUSH_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <!-- Required -->
+    <uses-permission android:name="${applicationId}.permission.JPUSH_MESSAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+    <!--可唤醒-->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!--可震动-->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!--挂载、反挂载外部文件系统-->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <!--允许读写系统设置项-->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!--获取当前WiFi接入的状态以及WLAN热点的信息-->
+    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
+    <!--允许当前应用改变配置，如定位-->
+    <!--<uses-permission android:name="android.permission.CHANGE_CONFIGURATION"/>-->
+    <!-- 访问权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!--允许程序显示系统窗口-->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- 获取网络信息状态，如当前的网络连接是否有效 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--允许程序写入外部存储，如SD卡上写文件-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!--访问电话状态-->
+    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
+
+    <application
+        android:name="com.example.util.ApplicationUtil"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_app"
+        android:label="@string/app_name"
+        android:theme="@style/BaseAppTheme">
+        <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="${JPUSH_APPKEY}" />
+
+        <!-- Required SDK 核心功能 -->
+        <!-- 可配置android:process参数将PushService放在其他进程中 -->
+        <service
+            android:name="cn.jpush.android.service.PushService"
+            android:process=":multiprocess"
+            tools:node="replace">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTER" />
+                <action android:name="cn.jpush.android.intent.REPORT" />
+                <action android:name="cn.jpush.android.intent.PushService" />
+                <action android:name="cn.jpush.android.intent.PUSH_TIME" />
+            </intent-filter>
+        </service>
+
+        <!-- Required SDK核心功能 -->
+        <receiver
+            android:name="cn.jpush.android.service.PushReceiver"
+            android:enabled="true">
+            <intent-filter android:priority="1000">
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
+
+                <category android:name="${applicationId}" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+            <!-- Optional -->
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Required SDK核心功能 -->
+        <activity
+            android:name="cn.jpush.android.ui.PushActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="false"
+            android:theme="@android:style/Theme.NoTitleBar">
+            <intent-filter>
+                <action android:name="cn.jpush.android.ui.PushActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </activity>
+
+        <!-- SDK核心功能 -->
+        <activity
+            android:name="cn.jpush.android.ui.PopWinActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="false"
+            android:theme="@style/MyDialogStyle">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </activity>
+
+        <!-- Required SDK核心功能 -->
+        <service
+            android:name="cn.jpush.android.service.DownloadService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <!-- Required SDK核心功能 -->
+        <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
+
+        <!-- User defined.  For test only  用户自定义的广播接收器 -->
+        <receiver
+            android:name="com.example.service.JPushReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!-- Required  用户注册SDK的intent -->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!-- Required  用户接收SDK消息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!-- Required  用户接收SDK通知栏信息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!-- Required  用户打开自定义通知栏的intent -->
+                <action android:name="cn.jpush.android.intent.CONNECTION" /> <!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </receiver>
+
+        <!-- 基础页面 -->
+        <activity
+            android:name="com.example.onlinelearnActivity.BaseActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 引导页 -->
+        <activity
+            android:name="com.example.onlinelearnActivity.GuideActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+
+        <!-- 默认启动页 -->
+        <activity
+            android:name="com.example.onlinelearnActivity.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- 登录页面 -->
+        <activity
+            android:name="com.example.onlinelearnActivity.LoginActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="data"
+                    android:scheme="sharetest" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.example.BadgeActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 服务条款 -->
+        <activity
+            android:name="com.example.onlinelearnActivity.FuWuActivity"
+            android:screenOrientation="portrait" />
+        <!-- 主页面 -->
+        <activity
+            android:name="com.example.onlinelearnActivity.CourseActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 课程主页 -->
+        <activity
+            android:name="com.example.onlinelearnActivity.CourseClassIndexActivity"
+            android:screenOrientation="portrait" />
+
+
+        <!-- 课程模块开始 -->
+        <!-- 练习 -->
+        <activity
+            android:name="com.example.onlinelearnActivity.courseWare.practic.PracticePagerActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.example.onlinelearnActivity.courseWare.practic.CourseWareChapterTestActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.example.onlinelearnActivity.courseWare.practic.PTestActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.example.onlinelearnActivity.courseWare.practic.CourseWareLxCtActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait" />
+
+        <!-- 测试 -->
+        <activity
+            android:name="com.example.onlinelearnActivity.courseWare.test.CourseWareTestActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.example.onlinelearnActivity.courseWare.test.TestActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.example.onlinelearnActivity.courseWare.test.TestPagerActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait" />
+
+        <!-- 作业 -->
+        <activity
+            android:name="com.example.onlinelearnActivity.task.TaskShowActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.example.onlinelearnActivity.task.ChoseFileToolActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.example.onlinelearnActivity.SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.example.onlinelearnActivity.search.SearchTypeActivity"
+            android:screenOrientation="portrait" />
+
+
+        <!-- 视频页面 -->
+        <activity
+            android:name="com.example.onlinelearnActivity.courseWare.video.VideoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+
+        <!-- 文档页面 -->
+        <activity
+            android:name="com.example.onlinelearnActivity.courseWare.document.DocumentActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+
+        <!-- 问答页面 -->
+        <activity
+            android:name="com.example.onlinelearnActivity.courseWare.question.AnswerActivity"
+            android:screenOrientation="portrait" />
+        <!-- 二级回答页面 -->
+        <activity
+            android:name="com.example.onlinelearnActivity.courseWare.question.LevelAnswerActivity"
+            android:screenOrientation="portrait" />
+        <!-- 问答提问页面 -->
+        <activity
+            android:name="com.example.onlinelearnActivity.PopActivity"
+            android:screenOrientation="portrait"/>
+            <!--android:theme="@style/AppThemeWithWindowAnimation"/>-->
+        <!-- 课程模块结束 -->
+
+        <!-- 我的课程页面 -->
+        <activity
+            android:name="com.example.onlinelearnActivity.MyClassActivity"
+            android:screenOrientation="portrait" />
+        <!-- 设置页面 -->
+        <activity
+            android:name="com.example.onlinelearnActivity.VersionActivity"
+            android:screenOrientation="portrait" />
+        <!-- 我的信息页面 -->
+        <activity
+            android:name="com.example.onlinelearnActivity.MyInfoActivity"
+            android:screenOrientation="portrait" />
+        <!-- 我的进度页面 -->
+        <activity
+            android:name="com.example.onlinelearnActivity.MyProgressActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 我的下载页面 -->
+        <activity
+            android:name="com.example.onlinelearnActivity.MyDownloadActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 提示页面 -->
+        <activity
+            android:name="com.example.onlinelearnActivity.alert.HintPracticActivity"
+            android:theme="@style/Theme.CustomDialog" />
+        <!-- 下载页面 -->
+        <activity
+            android:name="com.example.onlinelearnActivity.download.DownloadXxxwActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 下载更多 -->
+        <activity
+            android:name="com.example.onlinelearnActivity.download.DownloadXzgdActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 下载服务 -->
+        <service android:name="com.example.service.DownloadService" />
+
+        <!-- 兼容7.0的apk安装 -->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.downapk.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+    </application>
+
+</manifest>

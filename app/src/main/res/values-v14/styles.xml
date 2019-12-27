@@ -1,0 +1,102 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="AnimFade" parent="@android:style/Animation.Activity">  
+    	<item name="android:activityOpenEnterAnimation">@anim/fade_in</item>  
+    	<item name="android:activityOpenExitAnimation">@anim/hold</item>        
+    	<item name="android:activityCloseEnterAnimation">@anim/fade_in</item>  
+    	<item name="android:activityCloseExitAnimation">@anim/fade_out</item> 
+	</style>
+	
+	<style name="Anim_style2" parent="android:Theme.NoTitleBar">         
+        <item name="android:windowAnimationStyle">@style/AnimFade</item>       
+	</style> 
+	
+	<style name="MyDialogStyle">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+    
+
+	<style name="app_copyright">
+	    <item name="android:textSize">13sp</item>
+	</style>
+	<style name="app_name">
+	    <item name="android:textSize">20sp</item>
+	</style>
+	<style name="app_mainitem_img">
+	    <item name="android:layout_height">80dp</item>
+	    <item name="android:layout_width">80dp</item>
+	</style>
+	<style name="app_tar">
+	    <item name="android:textSize">18sp</item>
+	</style>
+	<style name="app_studentinfo_layout">
+	    <item name="android:layout_width">120dp</item>
+	    <item name="android:layout_height">40dp</item>
+	    <item name="android:textSize">13sp</item>
+	</style>
+	<style name="app_studentinfo_layout_height">
+	    <item name="android:layout_height">40dp</item>
+	    <item name="android:textSize">13sp</item>
+	</style>
+	<style name="app_score_layout">
+	    <item name="android:layout_width">140dp</item>
+	    <item name="android:textSize">13sp</item>
+	</style>
+	<style name="app_score_item">
+	    <item name="android:layout_width">120dp</item>
+	    <item name="android:textSize">13sp</item>
+	</style>
+	
+	<style name="app_graview_title">
+	    <item name="android:layout_marginTop">50dp</item>
+	    <item name="android:textSize">20sp</item>
+	</style>
+	
+	<style name="app_course_layout_height">
+	    <item name="android:layout_height">80dp</item>
+	</style>
+	
+	<style name="app_vedio_layout_height">
+	    <item name="android:layout_height">282dp</item>
+	</style>
+	
+	<style name="app_exit_layout">
+	    <item name="android:layout_width">280dp</item>
+	</style>
+	
+	<style name="app_exit_bnt_layout">
+	    <item name="android:layout_width">110dp</item>
+	    <item name="android:textSize">16sp</item>
+	</style>
+	
+	<style name="app_login_logo_layout">
+	    <item name="android:layout_marginTop">30dp</item>
+	    <item name="android:layout_marginBottom">20dp</item>
+	</style>
+	
+	<style name="app_login_exittext_layout">
+	    <item name="android:layout_height">wrap_content</item>
+	    <item name="android:textSize">15sp</item>
+	</style>
+	
+	<style name="app_video_image_nofull">
+	    <item name="android:layout_marginTop">20dp</item>
+	    <item name="android:layout_width">80dp</item>
+	    <item name="android:layout_height">80dp</item>
+	</style>
+	
+	
+    <style name="Theme.CustomDialog" parent="@android:style/Theme.Dialog">  
+        <item name="android:windowNoTitle">true</item>              <!-- 设置title -->  
+        <item name="android:windowBackground">@android:color/transparent</item>  
+        <item name="android:windowFrame">@null</item>               <!-- 设置边框 -->  
+        <item name="android:windowIsTranslucent">true</item>        <!-- 设置半透明 -->  
+        <item name="android:windowFullscreen">true</item>           <!-- 设置全屏 -->  
+    </style>
+</resources>

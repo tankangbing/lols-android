@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/alertmsgMain"
+        style="@style/app_exit_layout"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:background="@drawable/shape3" >
+
+    <TextView
+        android:id="@+id/alertmsgTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:padding="5dp"
+        android:text="提示"
+        android:textColor="#333"
+        style="@style/app_tar" />
+
+    <TextView
+        android:id="@+id/alertmsgContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text=""
+        android:textColor="#333"
+        android:lineSpacingExtra="2dp"
+        android:lineSpacingMultiplier="1.5"
+        style="@style/app_copyright" />
+	<TextView 
+	    android:id="@+id/alert_tv"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+	    android:layout_height="1px"
+	    android:background="#000"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="20dp" >
+
+        <Button
+            android:id="@+id/alertmsgCancel"
+            style="@style/app_exit_bnt_layout"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="visible"
+            android:onClick="alertmsgCancel"
+            android:background="@drawable/shape2"
+            android:text="否"
+            android:textColor="#333"/>
+        <Button
+            android:id="@+id/alertmsgSure"
+            style="@style/app_exit_bnt_layout"
+            android:background="@drawable/shape"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:onClick="alertmsgSure"
+            android:text="是"
+            android:textColor="#fff"
+            android:visibility="visible" />
+
+    </LinearLayout>
+
+</LinearLayout>

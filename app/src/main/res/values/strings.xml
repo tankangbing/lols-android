@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <drawable name="blue">#3193d4</drawable>
+    <drawable name="white">#fff</drawable>
+    <drawable name="black">#000</drawable>
+    <drawable name="gray">#d0d1d2</drawable>
+    <drawable name="green">#80FF80</drawable>
+    <drawable name="red">#F94E4E</drawable>
+
+
+    <string name="cwlx_wz">未做题目</string>
+    <string name="cwlx_ct">错题集</string>
+    <string name="cwlx_bj">标记题</string>
+
+    <!-- 错误提示字段-->
+    <string name="server_error">无法加载数据,请检查你的网络连接或者联系我们！</string>
+
+
+    <!-- LoginActivity 字段-->
+    <string name="login_ac_h1">请输入账号</string>
+    <string name="login_ac_h2">请输入密码</string>
+    <string name="login_ac_cb">记住密码</string>
+    <string name="login_ac_bt">登录</string>
+
+    <!--CourseClassIndexActivity 下的字段-->
+    <string name="classindex_nodownload">暂时没有可以下载的课程</string>
+
+    <!--视频页面下的须知-->
+    <string name="video_title">视频</string>
+    <string name="video_notice_title">学习须知</string>
+    <string name="video_notice">1、点击课程标题直接进入课程播放页面观看课程。点击“更多”查看所有课程。\n\n
+        2.必修课均预先打入课表，在“我的课程表”中的“必修课”版块中可以观看学习。\n\n
+        3.在第一次学习视频课程时，需要下载安装视频播放插件。按照页面提示“点击下载”， 然后根据提示下载并安装视频播放插件。\n\n
+        4.安装提示成功后，刷新播放页面，视频即可正常播放。 \n\n
+        5.视频课程自动从第1集开始播放，多集课程需要选择集数点播。 \n\n
+        6.每集课程学习完成后都要点击“记录当前学时”按钮保存学时。\nV
+        7.播放中途停止也需点击保存学时，下次观看该集课程时会自动从上次停止处续播。 \n\n
+        8.关于视频播放中的各种问题可点“常见问题”查找解决办法\n\n
+    </string>
+
+    <!--视频页面下的进度-->
+    <string name="video_progress_message">你还未学习过此视频\n没有学习进度</string>
+
+    <!-- 问答相关字段 -->
+    <string name="answer_btn">回答</string>
+    <string name="from_str">来自:</string>
+    <string name="answer_num_str">个回答</string>
+    <string name="questioner">提问者:</string>
+    <string name="question_time">提问时间:</string>
+
+    <!-- 下载页面相关字段 -->
+    <string name="all_click_bt">全选</string>
+    <string name="suredown_bt">确定下载</string>
+    <string name="down_message_tv">暂时没有可以下载的资源</string>
+    <string name="down_classname_tv">课程</string>
+    <string name="down_more">下载更多</string>
+    <string name="down_delete">删除</string>
+    <string name="down_edit">编辑</string>
+
+    <!-- 搜索-->
+    <string name="search_content">请输入搜索内容</string>
+
+    <!-- 公用图片 -->
+    <!-- 返回 -->
+    <string name="icon_back">&#xe779;</string>
+    <!-- 停止 -->
+    <string name="icon_stop"> &#xe7ec;</string>
+    <!-- 删除 -->
+    <string name="icon_delete"> &#xe6b4;</string>
+    <string name="icon_close">&#xe646;</string>
+
+    <!-- 更多 -->
+    <string name="icon_more">&#xe6a7;</string>
+    <!-- 点 -->
+    <string name="icon_dot">&#xe602;</string>
+
+    <!-- 登录页-->
+    <!-- 用户 -->
+    <string name="icon_user">&#xe75d;</string>
+    <!-- 锁 -->
+    <string name="icon_lock">&#xe8a7;</string>
+
+
+    <!-- 主页图片 -->
+    <!-- 我的课程 -->
+    <string name="icon_my_class">&#xe7f6;</string>
+    <!-- 我的主页 -->
+    <string name="icon_my_index">&#xe75e;</string>
+
+    <!-- 课件图标-->
+    <string name="icon_cw_doc"> &#xe619;</string>
+    <string name="icon_cw_video"> &#xe624;</string>
+    <string name="icon_cw_test"> &#xe600;</string>
+    <string name="icon_cw_practic"> &#xe601;</string>
+
+    <string name="icon_more_up"> &#xe7f5;</string>
+    <string name="icon_more_down"> &#xe7f4;</string>
+    <string name="icon_more_left"> &#xe7f3;</string>
+
+
+    <!-- 作业上传下载-->
+    <string name="icon_down_load"> &#xe63b;</string>
+    <string name="icon_up_load"> &#xe607;</string>
+
+    <!-- 选中与未选中-->
+    <string name="icon_unselect"> &#xe657;</string>
+    <string name="icon_select">&#xe656;</string>
+
+    <!-- 文件下载-->
+    <string name="icon_file_down">&#xe62d;</string>
+    <!-- 文件下载的更多-->
+    <string name="icon_file_more">  &#xe78d;</string>
+
+    <!-- 点赞-->
+    <string name="icon_good">  &#xe793;</string>
+    <!-- 踩-->
+    <string name="icon_bad">  &#xe7f1;</string>
+    <!-- 评论-->
+    <string name="icon_comment">  &#xe7e1;</string>
+
+
+    <!-- 标记-->
+    <string name="icon_sign">  &#xe7ec;</string>
+
+
+    <!-- 搜索图标-->
+    <string name="icon_search">&#xe627;</string>
+    <!-- 问答-->
+    <string name="icon_wd"> &#xe8be;</string>
+</resources>

@@ -1,0 +1,130 @@
+package com.example.onlinelearnActivity;
+
+import java.util.ArrayList;
+
+import android.app.ListActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.example.onlinelearn.R;
+import com.example.tree.PDFOutlineElement;
+import com.example.tree.TreeListViewAdapter;
+
+public class ListItemActivity extends ListActivity{
+
+	
+
+	private ArrayList<PDFOutlineElement> mPdfOutlinesCount = new ArrayList<PDFOutlineElement>();
+	private ArrayList<PDFOutlineElement> mPdfOutlines = new ArrayList<PDFOutlineElement>();
+	private TreeListViewAdapter treeViewAdapter = null;
+	
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        
+        initialData();
+        treeViewAdapter = new TreeListViewAdapter(this, R.layout.activity_main,
+				mPdfOutlinesCount);
+		setListAdapter(treeViewAdapter);
+		registerForContextMenu(getListView());
+    }   
+    
+    private void initialData() {
+		PDFOutlineElement pdfOutlineElement1=new PDFOutlineElement("01", "关键类", false	, false, "00", 0,false);
+		PDFOutlineElement pdfOutlineElement2=new PDFOutlineElement("02", "应用程序组件", false	, true, "00", 0,false);
+		PDFOutlineElement pdfOutlineElement3=new PDFOutlineElement("03", "Activity和任务", false	, true, "00", 0,false);
+		PDFOutlineElement pdfOutlineElement4=new PDFOutlineElement("04", "激活组件：intent", true	, false, "02", 1,false);
+		PDFOutlineElement pdfOutlineElement5=new PDFOutlineElement("05", "关闭组件", true	, false, "02", 1,false);
+		PDFOutlineElement pdfOutlineElement6=new PDFOutlineElement("06", "manifest文件", true	, false, "02", 1,false);
+		PDFOutlineElement pdfOutlineElement7=new PDFOutlineElement("07", "Intent过滤器", true	, false, "02", 1,false);
+		PDFOutlineElement pdfOutlineElement8=new PDFOutlineElement("08", "Affinity（吸引力）和新任务", true	, false, "03", 1,false);
+		PDFOutlineElement pdfOutlineElement9=new PDFOutlineElement("09", "加载模式", true	, true, "03", 1,false);
+		PDFOutlineElement pdfOutlineElement10=new PDFOutlineElement("10", "加载模式孩子1", true	, true, "09", 2,false);
+		PDFOutlineElement pdfOutlineElement11=new PDFOutlineElement("11", "加载模式孩子2", true	, true, "09", 2,false);
+		PDFOutlineElement pdfOutlineElement12=new PDFOutlineElement("12", "加载模式孩子2的孩子1", true	, false, "11", 3,false);
+		PDFOutlineElement pdfOutlineElement13=new PDFOutlineElement("13", "加载模式孩子2的孩子2", true	, false, "11", 3,false);
+		PDFOutlineElement pdfOutlineElement14=new PDFOutlineElement("14", "加载模式孩子1的孩子1", true	, false, "10", 3,false);
+		PDFOutlineElement pdfOutlineElement15=new PDFOutlineElement("15", "加载模式孩子1的孩子2", true	, false, "10", 3,false);
+		PDFOutlineElement pdfOutlineElement16=new PDFOutlineElement("16", "加载模式孩子1的孩子3", true	, false, "10", 3,false);
+		PDFOutlineElement pdfOutlineElement17=new PDFOutlineElement("17", "加载模式孩子1的孩子4", true	, false, "10", 3,false);
+		PDFOutlineElement pdfOutlineElement18=new PDFOutlineElement("18", "加载模式孩子1的孩子5", true	, false, "10", 3,false);
+		PDFOutlineElement pdfOutlineElement19=new PDFOutlineElement("19", "加载模式孩子1的孩子6", true	, false, "10", 3,false);
+		mPdfOutlinesCount.add(pdfOutlineElement1);
+		mPdfOutlinesCount.add(pdfOutlineElement2);
+		mPdfOutlinesCount.add(pdfOutlineElement3);
+	
+		
+		mPdfOutlines.add(pdfOutlineElement1);
+		mPdfOutlines.add(pdfOutlineElement2);
+		mPdfOutlines.add(pdfOutlineElement4);
+		mPdfOutlines.add(pdfOutlineElement5);
+		mPdfOutlines.add(pdfOutlineElement6);
+		mPdfOutlines.add(pdfOutlineElement7);
+		mPdfOutlines.add(pdfOutlineElement3);
+		mPdfOutlines.add(pdfOutlineElement8);
+		mPdfOutlines.add(pdfOutlineElement9);
+		mPdfOutlines.add(pdfOutlineElement10);
+		mPdfOutlines.add(pdfOutlineElement11);
+		mPdfOutlines.add(pdfOutlineElement12);
+		mPdfOutlines.add(pdfOutlineElement13);
+		mPdfOutlines.add(pdfOutlineElement14);
+		mPdfOutlines.add(pdfOutlineElement15);
+		mPdfOutlines.add(pdfOutlineElement16);
+		mPdfOutlines.add(pdfOutlineElement17);
+		mPdfOutlines.add(pdfOutlineElement18);
+		mPdfOutlines.add(pdfOutlineElement19);
+		
+		
+		
+	}
+
+	
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
+		Toast.makeText(this, mPdfOutlinesCount.get(position).getOutlineTitle(), 2000).show();
+
+		if (!mPdfOutlinesCount.get(position).isMhasChild()) {
+			Toast.makeText(this, mPdfOutlinesCount.get(position).getOutlineTitle(), 2000);
+			return;
+		}
+		
+
+		if (mPdfOutlinesCount.get(position).isExpanded()) {
+			mPdfOutlinesCount.get(position).setExpanded(false);
+			PDFOutlineElement pdfOutlineElement=mPdfOutlinesCount.get(position);
+			ArrayList<PDFOutlineElement> temp=new ArrayList<PDFOutlineElement>();
+			
+			for (int i = position+1; i < mPdfOutlinesCount.size(); i++) {
+				if (pdfOutlineElement.getLevel()>=mPdfOutlinesCount.get(i).getLevel()) {
+					break;
+				}
+				temp.add(mPdfOutlinesCount.get(i));
+			}
+			
+			mPdfOutlinesCount.removeAll(temp);
+			
+			treeViewAdapter.notifyDataSetChanged();
+			
+		} else {
+			mPdfOutlinesCount.get(position).setExpanded(true);
+			int level = mPdfOutlinesCount.get(position).getLevel();
+			int nextLevel = level + 1;
+			
+
+			for (PDFOutlineElement pdfOutlineElement : mPdfOutlines) {
+				int j=1;
+				if (pdfOutlineElement.getParent()==mPdfOutlinesCount.get(position).getId()) {
+					pdfOutlineElement.setLevel(nextLevel);
+					pdfOutlineElement.setExpanded(false);
+					mPdfOutlinesCount.add(position+j, pdfOutlineElement);
+					j++;
+				}			
+			}
+			treeViewAdapter.notifyDataSetChanged();
+		}
+	}
+
+}

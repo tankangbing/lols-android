@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="horizontal"
+                android:background="#fff"
+                android:paddingLeft="15dp"
+                android:paddingRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="55dp">
+    <TextView
+        android:id="@+id/search_showall_icon"
+        android:layout_width="wrap_content"
+        android:textColor="@color/progressbar_finished"
+        android:text="@string/icon_search"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:layout_height="55dp"/>
+
+    <TextView
+        android:id="@+id/search_item_behavoir"
+        android:layout_width="match_parent"
+        android:textSize="15sp"
+        android:paddingLeft="5dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/progressbar_finished"
+        android:layout_height="55dp"
+        android:text="点击查看更多搜索内容"/>
+</LinearLayout>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background_white">
+    <RelativeLayout
+        android:id="@+id/total_progress_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="30dp">
+
+        <TextView
+            android:id="@+id/t1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="视频总进度"
+            android:textColor="@color/color_333333"
+            style="@style/middle_textSize"/>
+        <com.example.view.circleProgress.ArcProgress
+            android:id="@+id/arc_progress"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_below="@+id/t1"
+            android:layout_centerHorizontal="true"
+            custom:arc_stroke_width="10dp"
+            custom:arc_bottom_text="总进度"
+            custom:arc_bottom_text_size="14sp"
+            custom:arc_finished_color="@color/progressbar_finished"
+            custom:arc_unfinished_color="@color/progressbar_unfinished"/>
+
+        <TextView
+            android:id="@+id/t2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/arc_progress"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:text="视频观看情况"
+            android:textColor="@color/color_333333"
+            style="@style/middle_textSize"/>
+
+
+        <View
+            android:id="@+id/cut_off_line1"
+            android:layout_width="match_parent"
+            android:layout_height="0.01dp"
+            android:layout_below="@+id/t2"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:background="@color/divider_color"/>
+
+        <com.example.view.multiSeekbar.MultiColorSeekbar
+            android:id="@+id/multi_color_sb1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_below="@+id/cut_off_line1"
+            android:maxHeight="20dip"
+            android:minHeight="20dip"/>
+        <TextView
+            android:id="@+id/progress_detail_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="查看进度详情"
+            android:textColor="@color/colorPrimary"
+            style="@style/middle_textSize"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/multi_color_sb1"
+            />
+
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/daily_progress_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <com.example.view.multiSeekbar.MultiColorSeekbar
+            android:id="@+id/multi_color_sb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:maxHeight="20dip"
+            android:minHeight="20dip"
+            android:thumb="@null" />
+
+        <TextView
+            android:id="@+id/progress_date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/text_gray"
+            android:text="2017-6-12"/>
+        <View
+            android:id="@+id/cut_off_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.01dp"
+            android:layout_below="@+id/t2"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:background="@color/divider_color"/>
+    </LinearLayout>
+
+</LinearLayout>

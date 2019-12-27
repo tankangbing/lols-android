@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:background="#fff"
+              android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/fcw_xxjl_ll"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="40dp"
+        android:background="#f9efb8">
+        <TextView
+            android:id="@+id/fcw_xxjl_text"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:textColor="#50504e"
+            android:text="上次学习到：第一章节第XXX练习题"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <ImageView
+            android:id="@+id/fcw_xxjl_close"
+            android:layout_width="40dp"
+            android:src="@drawable/video_close"
+            android:padding="15dp"
+            android:onClick="click"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/fcw_lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:dividerHeight="1px"
+        android:divider="@color/divider_color2"/>
+</LinearLayout>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--  提问&&回答页面     -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#fff">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/foot_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:id="@+id/chapter_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/chapter_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="请选择问题所属节点"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:background="@null"
+                    android:textColorHint="@color/text_gray"
+                    android:textColor="@color/text_5b5b5b"
+                    android:layout_centerVertical="true"
+                    android:textSize="16sp" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/hide"/>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.01dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="#C9C9C9"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/topic_title_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/topic_title_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:textSize="16sp"
+                android:textColorHint="@color/text_gray"
+                android:textColor="@color/text_5b5b5b"
+                android:maxLength="200"
+                android:singleLine="true"
+                android:hint="请输入问题标题"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.01dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="#C9C9C9"/>
+        </LinearLayout>
+
+       <EditText
+           android:id="@+id/topic_title_content"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:background="@null"
+           android:gravity="left"
+           android:textSize="16sp"
+           android:textColorHint="@color/text_gray"
+           android:textColor="@color/text_5b5b5b"
+           android:hint="请尽量清晰地完善地描述问题，以便大家给予正确的回复。"/>
+
+   </LinearLayout>
+
+   <RelativeLayout
+       android:id="@+id/foot_content"
+       android:layout_width="match_parent"
+       android:layout_height="50dp"
+       android:layout_alignParentBottom="true">
+
+       <View
+           android:id="@+id/cut_off_line"
+           android:layout_width="match_parent"
+           android:layout_height="0.01dp"
+           android:background="#C9C9C9"/>
+       <RelativeLayout
+           android:id="@+id/foot_toolbar"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:layout_below="@+id/cut_off_line">
+
+           <TextView
+               android:id="@+id/submit_btn"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:paddingLeft="10dp"
+               android:paddingRight="10dp"
+               android:layout_marginRight="20dp"
+               android:layout_alignParentRight="true"
+               android:layout_centerVertical="true"
+               android:background="@drawable/shape"
+               android:text="提交"
+               android:textSize="14sp"
+               android:textColor="#ffffff" />
+
+       </RelativeLayout>
+
+   </RelativeLayout>
+
+</RelativeLayout>

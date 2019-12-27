@@ -1,0 +1,158 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+
+android {
+
+
+    compileSdkVersion 26
+    buildToolsVersion "26.0.0"
+    useLibrary 'org.apache.http.legacy'
+    defaultConfig {
+        /*APPLICATION_ID "com.example.onlinelearn"*/
+
+        minSdkVersion 16
+        targetSdkVersion 26
+
+        versionCode 1
+        versionName "1.3.5"
+
+
+        ndk {
+            //设置支持的SO库架构
+            abiFilters 'armeabi', 'x86'
+        }
+
+        /* manifestPlaceholders = [
+                JPUSH_PKGNAME : APPLICATION_ID,
+                JPUSH_APPKEY : "63b1c648145c1829cf9c7e04", //JPush上注册的包名对应的appkey.
+                JPUSH_CHANNEL :"developer-default", //暂时填写默认值即可.
+        ]*/
+        multiDexEnabled true
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('C:/Users/hnjk/key.jks')
+            storePassword 'tkb123'
+            keyAlias 'key0'
+            keyPassword 'tkb123'
+        }
+    }
+
+    buildTypes {
+
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources true
+        }
+
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources false
+        }
+    }
+
+    productFlavors {
+
+        onlineLearn {
+            applicationId "com.example.onlinelearn"
+            versionName "1.3.3"
+            resValue "string", "app_name", "在线学习"
+            manifestPlaceholders = [
+                    JPUSH_PKGNAME: applicationId,
+                    JPUSH_APPKEY : "63b1c648145c1829cf9c7e04", //JPush上注册的包名对应的appkey.
+                    JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
+            ]
+
+        }
+        onlineLearnSA {
+            applicationId "com.example.onlinelearn.sa"
+            versionName "1.0.0"
+            resValue "string", "app_name", "食品安全培训"
+            manifestPlaceholders = [
+                    JPUSH_PKGNAME: applicationId,
+                    JPUSH_APPKEY : "924c85299708f3c2f87070de", //JPush上注册的包名对应的appkey.
+                    JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
+            ]
+        }
+        onlineLearnZK {
+            applicationId "com.example.onlinelearn.zk"
+            versionName "1.3.5"
+//            resValue "string", "app_name", "华工自考在线"
+            resValue "string", "app_name", "在线学习"
+            manifestPlaceholders = [
+                    JPUSH_PKGNAME: applicationId,
+                    JPUSH_APPKEY : "63b1c648145c1829cf9c7ess04", //JPush上注册的包名对应的appkey.
+                    JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
+            ]
+        }
+
+
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+            java.srcDirs = ['src/main/java']
+            resources.srcDirs = ['src/main/java']
+            aidl.srcDirs = ['src/main/java']
+            renderscript.srcDirs = ['src/main/java']
+            res.srcDirs = ['src/main/res']
+            assets.srcDirs = ['src/main/assets']
+            jniLibs.srcDirs = ['libs']
+
+        }
+        onlineLearn.java.srcDirs = ['src/onlineLearn/java']
+        onlineLearn.res.srcDirs = ['src/onlineLearn/res']
+
+        onlineLearnSA.java.srcDirs = ['src/onlineLearnSA/java']
+        onlineLearnSA.res.srcDirs = ['src/onlineLearnSA/res']
+
+        onlineLearnZK.java.srcDirs = ['src/onlineLearnZK/java']
+        onlineLearnZK.res.srcDirs = ['src/onlineLearnZK/res']
+
+    }
+
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    //debugCompile dataDependencies.leakcanary
+    compile project(':android-pdf-viewer')
+    // 此处以JPush 3.0.3 版本为例。
+    // 此处以JCore 1.1.1 版本为例。
+    /* compile files('libs/glide-3.6.1.jar')*/
+    /*    compile 'com.shuyu:gsyVideoPlayer-armv5:2.0.6'
+            compile 'com.shuyu:gsyVideoPlayer-armv7a:2.0.6'
+            compile 'com.shuyu:gsyVideoPlayer-arm64:2.0.6'
+            compile 'com.shuyu:gsyVideoPlayer-x64:2.0.6'
+            compile 'com.shuyu:gsyVideoPlayer-x86:2.0.6'*/
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:cardview-v7:23.1.1'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.wang.avi:library:2.1.3'
+    compile 'com.shuyu:GSYVideoPlayer:2.0.7'
+    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile 'com.jakewharton:butterknife:8.2.1'
+    compile 'com.jakewharton:butterknife-compiler:8.2.1'
+    compile 'com.android.support:recyclerview-v7:24.2.0'
+    compile 'com.android.support:support-v4:24.2.0'
+    compile 'com.android.support:design:22.2.1'
+    compile 'cn.jiguang.sdk:jpush:3.0.3'
+    compile 'cn.jiguang.sdk:jcore:1.1.1'
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+
+    /*   debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+        releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'*/
+}

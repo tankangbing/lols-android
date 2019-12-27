@@ -1,0 +1,9 @@
+<resources>
+
+    <!--
+         Customize dimensions originally defined in res/values/dimens.xml (such as
+         screen margins) for sw600dp devices (e.g. 7" tablets) here.
+         600，针对600x1024mdip的屏幕（7英寸平板）
+    -->
+    <dimen name="post_media_height">500dp</dimen>
+</resources>

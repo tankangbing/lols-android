@@ -1,0 +1,201 @@
+package com.example.onlinelearnActivity;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.app.FragmentActivity;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.Fragment.FCourseWare;
+import com.example.Fragment.FOther;
+import com.example.entity.Item;
+import com.example.jsonReturn.CourseReturn;
+import com.example.onlinelearn.R;
+import com.example.onlinelearnActivity.courseWare.CourseWareChapter;
+import com.example.util.ApplicationUtil;
+import com.example.util.FinalStr;
+import com.example.util.HttpUtil;
+import com.example.util.JsonUtil;
+import com.example.util.SysUtil;
+
+public class CourseActivity extends FragmentActivity implements OnClickListener
+{
+	private ApplicationUtil hdaplication;//全局参数对象
+	Map<String,Object> mydata = new HashMap<String,Object>();//数据
+	private Handler handler;//异步刷新组件
+	Item nodes =new Item();
+	List<Item> tItems=new ArrayList<Item>();
+	FCourseWare fCourseWare=null;
+	ListView lView=null;
+	FOther fOther=null;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.course);
+		setCache();
+		hdaplication = (ApplicationUtil)getApplication();
+		lView=(ListView)findViewById(R.id.cw_listView);
+		updateUi();
+		getData();
+
+	}
+	public void setCache() {
+		hdaplication = (ApplicationUtil) getApplication();
+		hdaplication.addActivity(this);
+	}
+	public void updateUi(){
+		handler = new Handler() {
+			public void handleMessage(Message msg) {  
+	        	switch (msg.what) {
+				case 0: //无法加载数据
+					Toast.makeText(CourseActivity.this,"无法加载数据,请检查你的网络连接或者联系我们！",
+							Toast.LENGTH_LONG).show();
+					break;
+				case 1: //加载数据
+					setList();
+					break;
+				case 2:
+					Toast.makeText(CourseActivity.this, "没有相关的未学课程信息", Toast.LENGTH_LONG).show();
+					break;
+	        }
+	        super.handleMessage(msg);
+	     }
+		};
+	}
+	
+	public void setList(){
+    	try {
+    		if(tItems!=null&&tItems.size()>0){
+    			lView.setItemsCanFocus(false); 
+    			
+    			
+    			
+    			lView.setAdapter(new MyAdapter());
+    		}else {
+				sendMessage(2);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			sendMessage(2);
+		}
+	}
+	
+	 public void sort(List<Map<String,Object>> list) {
+	        Collections.sort(list, new Comparator<Map<String, Object>>() {
+	            public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+	                return (Integer) o1.get("index") > (Integer) o2
+	                        .get("index") ? ((Integer) o1.get("index") == (Integer) o2
+	                        .get("index") ? 0 : 1) : -1;
+	            }
+	        });
+	}
+	 
+	private void sendMessage(int str){
+		Message msg = new Message();
+		msg.what = str;
+		CourseActivity.this.handler.sendMessage(msg);  
+	}
+	
+	public void getData(){
+		new Thread(new Runnable() {
+            @Override  
+            public void run() {
+            	Map<String,Object> map = new HashMap<String,Object>(0);
+            	map.put("coursewareId", "ff8080815b0e7c36015b0e7d07060000");
+            	map.put("classId", "4028809a591a843e01594e92f074249f");
+            	String result = HttpUtil.getResultByPost(FinalStr.ACCESSPRYPATH+"/appControler.do?showCatalog",
+            			map,CourseActivity.this,null);
+            	if(SysUtil.isBlank(result) || "NO_NET".equals(result)){
+            		sendMessage(0);           		
+				}else{
+					CourseReturn courseReturn=JsonUtil.parserString(result, CourseReturn.class);
+					if(null != courseReturn && courseReturn.getCode()!=null){
+						if("1".equals(courseReturn.getCode())){
+			    			tItems=courseReturn.getCourseItemList();
+							sendMessage(1);
+						}else{
+							sendMessage(2);
+						}
+					}else{
+						sendMessage(0);
+					}
+					
+				}
+            }  
+        }).start();	
+	}
+	
+
+	private class MyAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            //return lists.size();
+        	return 1;
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            View v;
+            if (view==null){
+                v=View.inflate(CourseActivity.this,R.layout.course_ware_lv_item,null);
+
+            }else {
+                v=view;
+            }
+            TextView tv_seekname=(TextView)v.findViewById(R.id.cw_item_tv);
+            LinearLayout lLayout=(LinearLayout)v.findViewById(R.id.cw_item_ll);
+            if(tItems.get(4).getItem()!=null){
+            	for(int j=0;j<tItems.get(4).getItem().size();j++){
+                	TextView tView=new TextView(getApplicationContext());
+                	//tView.setClickable(true);
+                	tView.setTag(tItems.get(4).getItem().get(j).getItem().get(0).getIdentifier()+"#"+tItems.get(4).getItem().get(j).getTitle());
+                	tView.setOnClickListener(CourseActivity.this);
+                	tView.setText(tItems.get(4).getItem().get(j).getTitle());
+                	tView.setTextColor(R.drawable.black);
+                	lLayout.addView(tView);
+                }
+            }
+            tv_seekname.setText(tItems.get(4).getTitle());
+            return v;
+        }
+    }
+
+
+	public void onClick(View v) {
+		Intent intent =new Intent();
+		intent.setClass(CourseActivity.this, CourseWareChapter.class);
+		String tagStrings=v.getTag()+"";
+		String [] tStrings=tagStrings.split("#");
+		intent.putExtra("title", tStrings[1]);
+		hdaplication.setBehaviorId(tStrings[0]);
+		startActivity(intent);
+	}
+
+}

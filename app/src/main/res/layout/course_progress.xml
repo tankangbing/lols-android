@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.scwang.smartrefresh.layout.SmartRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/refreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white">
+<ScrollView
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+            android:background="@color/background_white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:id="@+id/cp_lin"
+    android:visibility="gone"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:padding="30dp">
+            <com.example.view.circleProgress.ArcProgress
+                android:id="@+id/arc_progress"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_below="@+id/t1"
+                android:layout_centerHorizontal="true"
+                custom:arc_stroke_width="10dp"
+                custom:arc_bottom_text="目标80%"
+                custom:arc_bottom_text_size="14sp"
+                custom:arc_finished_color="@color/colorPrimary"
+                custom:arc_unfinished_color="@color/progressbar_unfinished"/>
+            <TextView
+                android:id="@+id/cp_protext"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:onClick="click"
+                android:layout_height="wrap_content"
+                android:text="上次学习到------继续学习>>"/>
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/background_gray"/>
+        <LinearLayout
+            android:background="#fff"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:layout_height="60dp">
+            <RadioGroup
+                android:id="@+id/cp_rg"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="40dp">
+
+                <RadioButton
+                    android:id="@+id/cp_rb_all"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:text="全部"
+                    android:gravity="center"
+                    android:checked="true"
+                    android:textColor="@drawable/select_progress_btn"
+                    android:background="@drawable/progress_left"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"/>
+
+                <RadioButton
+                    android:id="@+id/cp_rb_ywc"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:button="@null"
+                    android:text="已完成"
+                    android:background="@drawable/progress_cen"
+                    android:textColor="@drawable/select_progress_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <RadioButton
+                    android:id="@+id/cp_rb_wwc"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:layout_width="match_parent"
+                    android:textColor="@drawable/select_progress_btn"
+                    android:gravity="center"
+                    android:text="未完成"
+                    android:background="@drawable/progress_right"
+                    android:layout_height="match_parent"/>
+
+            </RadioGroup>
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/background_gray"/>
+
+        <TableLayout
+            android:id="@+id/cp_tb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </TableLayout>
+
+
+
+</LinearLayout>
+
+    </ScrollView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="#fff" android:onClick="onclick1"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <TextView
+            android:id="@+id/cw_test_item_cs"
+            android:layout_width="80dp"
+            android:textColor="#000"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="次数"/>
+
+        <TextView
+            android:id="@+id/cw_test_item_sj"
+            android:layout_toRightOf="@+id/cw_test_item_cs"
+            android:layout_width="wrap_content"
+            android:textColor="#000"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="时间"/>
+
+        <TextView
+            android:id="@+id/cw_test_item_fs"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:textColor="#000"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="得分"/>
+    </RelativeLayout>
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="1px"
+    android:background="#000"/>
+</LinearLayout>

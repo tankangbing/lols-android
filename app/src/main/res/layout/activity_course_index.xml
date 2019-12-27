@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   >
+
+    <LinearLayout
+        android:layout_below="@+id/tshow_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <com.example.view.FlycoTabLayout.SlidingTabLayout
+            android:id="@+id/tl_2"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/color_white"
+            tl:tl_indicator_color="@color/colorPrimary"
+            tl:tl_indicator_height="2dp"
+            tl:tl_indicator_width_equal_title="true"
+            tl:tl_tab_space_equal="true"
+            tl:tl_textSelectColor="@color/colorPrimary"
+            tl:tl_textUnselectColor="@color/color_999999"
+            tl:tl_underline_color="#1A000000"
+            tl:tl_underline_height="1dp"
+            style="@style/middle_textSize"/>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp"
+            android:background="#fff"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        style="@style/AVLoadingIndicatorView"
+        app:indicatorName="LineSpinFadeLoaderIndicator"
+        app:indicatorColor="@color/loading_color" />
+
+    <com.example.view.WrappingSlidingDrawer
+        android:id="@+id/sliding"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:content="@+id/sliding_content"
+        android:handle="@+id/sliding_handle"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/sliding_content"
+            android:clickable="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include
+                android:id="@+id/answer_layout"
+                layout="@layout/layout_answer"/>
+
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/sliding_handle"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#00ffffff"
+            android:layout_alignParentBottom="true">
+
+        </RelativeLayout>
+    </com.example.view.WrappingSlidingDrawer>
+
+
+</RelativeLayout>
+

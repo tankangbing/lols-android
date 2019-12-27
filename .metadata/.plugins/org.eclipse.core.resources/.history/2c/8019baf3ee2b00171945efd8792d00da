@@ -1,0 +1,757 @@
+package com.example.onlinelearnActivity.courseWare.practic;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.DrawerLayout;
+import android.text.Html;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.entity.DLPracticeAnswerModel;
+import com.example.entity.ExerciseCard;
+import com.example.entity.Question;
+import com.example.entity.QuestionModel;
+import com.example.entity.ResQuestionTypeRuleModel;
+import com.example.jsonReturn.GetExerciseReturn;
+import com.example.jsonReturn.GotoExerciseReturn;
+import com.example.jsonReturn.SubmitExerciseReturn;
+import com.example.onlinelearn.R;
+import com.example.util.ApplicationUtil;
+import com.example.util.FinalStr;
+import com.example.util.HttpUtil;
+import com.example.util.JsonUtil;
+import com.example.util.SysUtil;
+
+@SuppressLint("NewApi")
+public class PracticActivity extends FragmentActivity implements OnCheckedChangeListener{
+	RadioGroup rGroup;
+	private String questionForm="0";//题目形式   ： 所有   未做 错题 标记
+	private Handler handler;//异步刷新组件
+	private ApplicationUtil hdaplication;//全局参数对象
+	private GetExerciseReturn getExerciseReturn;//获取题目的数据
+	private String questionId;//题目主键
+	int questionType=0;//题目类型 1单选 2多选 3判断 5 7简答  8名词解析
+	RadioButton p_questionSum,p_questionNodo,p_questionSign,p_questionWrong;//按钮 全部 未做 标记 错题
+	RadioGroup p_rg_option;//单选 判断的按钮集合
+	LinearLayout p_ll_option;//选项集合
+	String optionId;//选项主键 选中
+	Button btn;//提交按钮
+	String todo;//批次主键 答题模式 或 背题模式
+	int allQuestionCount=0,unfinishedQuestionCount=0,signQuestionCount=0,errorQuestionCount=0;
+	List<DLPracticeAnswerModel> learnPracAnsRecordEntityList=new ArrayList<DLPracticeAnswerModel>();//当前批次作答记录
+	List<DLPracticeAnswerModel> learnPracAnsRecordList=new ArrayList<DLPracticeAnswerModel>();//所有批次的当前题目作答记录
+	List<CheckBox> checkBoxList;//多选按钮集合
+	LinearLayout llyout,p_ll_tj;
+	String exerciseStatus;//练习状态 继续或重做
+	ExerciseCard exerciseCard;
+	TableLayout pe_ll;
+	DrawerLayout mdrawerLayout;
+	Button lastButton;
+	String isright ="";
+	String rightCount ="";
+	String signString="";
+	TextView tv;
+	TextView pq_tx,pq_th,pq_nr;
+    Map<String,Object> correctIdsAndErrorIds = new HashMap<String,Object>();
+    Map<String,Object> signQuestionMap = new HashMap<String,Object>();
+    Map<String,Object> errorQuestionMap = new HashMap<String,Object>();
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.practice);
+		setCache();
+		mdrawerLayout=(DrawerLayout)findViewById(R.id.drawerlayout);
+		setUi();
+		updateUi();
+		getData();
+	}
+
+	public void setCache() {
+		hdaplication = (ApplicationUtil) getApplication();
+		hdaplication.addActivity(this);
+	}
+	
+	public void setUi(){
+		lastButton=new Button(getApplicationContext());
+		pe_ll=(TableLayout)findViewById(R.id.pe_ll);
+		p_ll_option=(LinearLayout)findViewById(R.id.p_ll_option);
+		checkBoxList=new ArrayList<CheckBox>();
+		rGroup=(RadioGroup)findViewById(R.id.practice_rg);
+		rGroup.setOnCheckedChangeListener((OnCheckedChangeListener) this);
+		btn=(Button)findViewById(R.id.p_btn_tj);
+		llyout=(LinearLayout)findViewById(R.id.p_ll_status);
+		p_ll_tj=(LinearLayout)findViewById(R.id.p_ll_tj);
+		p_questionSum=(RadioButton)findViewById(R.id.p_questionSum);
+		p_questionNodo=(RadioButton)findViewById(R.id.p_questionNodo);
+		p_questionSign=(RadioButton)findViewById(R.id.p_questionSign);
+		p_questionWrong=(RadioButton)findViewById(R.id.p_questionWrong);
+		Intent intent = getIntent();  
+		tv=(TextView)findViewById(R.id.p_btn_sign);
+		String string = intent.getStringExtra("batchId");
+		if(string!=null&&!string.equals("null")&&!string.equals("")){
+			String[] strlist=string.split("#");
+			for(int i=0;i<strlist.length;i++){
+				if(i==0){
+					allQuestionCount=Integer.parseInt(strlist[i]);
+				}else if(i==1){
+					todo=strlist[i];
+				}else if (i==2) {
+					exerciseStatus=strlist[i];
+				}
+			}
+		}
+		if (todo.equals("view")) {
+			btn.setVisibility(View.GONE);
+		}else {
+			btn.setVisibility(View.VISIBLE);
+		}
+	}
+	
+	public void updateUi(){
+		handler = new Handler() {
+			public void handleMessage(Message msg) {  
+	        	switch (msg.what) {
+				case 0: //无法加载数据
+					Toast.makeText(PracticActivity.this,"无法加载数据,请检查你的网络连接或者联系我们！",
+							Toast.LENGTH_LONG).show();
+					break;
+				case 1: //加载数据
+					setList();
+					//closeAlert();
+					break;
+				case 2:
+					//closeAlert();
+					Toast.makeText(PracticActivity.this, "没有相关的在信息", Toast.LENGTH_LONG).show();
+					removeview();
+					break;
+				case 3:
+					//设置答题卡
+					setExerciseCordList();
+					break;
+				case 4:
+					//设置答题卡按钮变化
+					setExerciseCorlor();
+					break;
+				case 5:
+					//设置标记
+					setSign();
+					break;
+	        }
+	        super.handleMessage(msg);
+	     }
+		};
+	}
+
+	@SuppressWarnings("unchecked")
+	public void setList(){
+    	try {
+    		setTitletext();
+    		llyout.setVisibility(View.GONE);
+    		p_ll_tj.setVisibility(View.GONE);
+    		p_rg_option=new RadioGroup(getApplicationContext());
+    		p_ll_option.removeAllViews();
+    		Question question=getExerciseReturn.getCurrentQuesiton();
+    		pq_tx=(TextView)findViewById(R.id.pq_tx);
+    		pq_th=(TextView)findViewById(R.id.pq_th);
+    		pq_nr=(TextView)findViewById(R.id.pq_nr);
+			if(question!=null){
+				//判断标记
+				if (signQuestionMap.get(question.getId())!=null&&signQuestionMap.get(question.getId()).equals("标记")) {
+					tv.setText("取消标记");
+				}else {
+					tv.setText("标记");
+				}
+				btn.setEnabled(true);
+				String questionIndex=getExerciseReturn.getIndex();
+				pq_th.setText(questionIndex+".");//设置题目序号
+				pq_nr.setText(Html.fromHtml(question.getContent()));//设置题目内容
+				String ids=question.getType()+questionIndex;
+				int idInt=Integer.parseInt(ids);
+				lastButton=(Button)findViewById(idInt);
+				lastButton.setBackgroundColor(0xFF3193d4);
+				if(null != question.getOption() && question.getOption().size() > 0){//判断题型，设置选项
+					if(question.getType().equals("1")){
+						pq_tx.setText("单选题");
+						for(int i=0;i<question.getOption().size();i++){
+							RadioButton rb_option=(RadioButton) LayoutInflater.from(getApplicationContext()).inflate(R.layout.practic_radiobutton, null);  
+							//RadioButton rb_option=new RadioButton(getApplicationContext());
+							rb_option.setText(Html.fromHtml(question.getOption().get(i).getContent()));
+							String id=question.getOption().get(i).getId();
+							rb_option.setTag(id);
+							p_rg_option.addView(rb_option);
+						}
+						p_ll_option.addView(p_rg_option);
+					}else if(question.getType().equals("2")){
+						pq_tx.setText("多选题");
+						for(int i=0;i<question.getOption().size();i++){
+							CheckBox cb_option=(CheckBox) LayoutInflater.from(getApplicationContext()).inflate(R.layout.practice_checkbox, null);  
+							cb_option.setText(Html.fromHtml(question.getOption().get(i).getContent()));
+							String id=question.getOption().get(i).getId();
+							cb_option.setTag(id);
+							p_ll_option.addView(cb_option);
+							checkBoxList.add(cb_option);
+						}
+					}
+	    	    }else{
+	    	    	if(question.getType().equals("3")){
+						pq_tx.setText("判断题");
+						RadioButton rb_option=(RadioButton) LayoutInflater.from(getApplicationContext()).inflate(R.layout.practic_radiobutton, null);  
+						rb_option.setText("正确");
+						rb_option.setTag("0");
+						p_rg_option.addView(rb_option);
+						RadioButton rb_option2=(RadioButton) LayoutInflater.from(getApplicationContext()).inflate(R.layout.practic_radiobutton, null);  
+						rb_option2.setText("错误");
+						rb_option2.setTag("1");
+						p_rg_option.addView(rb_option2);
+						p_ll_option.addView(p_rg_option);
+					}else{
+						if(question.getType().equals("5")){
+							pq_tx.setText("论述题");
+						}else if(question.getType().equals("7")){
+							pq_tx.setText("简答题");
+						}else if(question.getType().equals("8")){
+							pq_tx.setText("名词解析题");
+						}
+					}
+	    	    }
+				
+				if(getExerciseReturn.getLearnPracAnsRecordEntityList()!=null||todo.equals("view")){
+					if(!todo.equals("view")){//设置答题卡标识
+            			if(getExerciseReturn.getAnswerStatus().equals("错误")){
+							lastButton.setBackgroundColor(0xFFF72B2B);
+	            		}else {
+							lastButton.setBackgroundColor(0xFF80FF80);
+						}
+            		}
+						if(question.getType().equals("1")){
+							for(int i=0;i<p_rg_option.getChildCount();i++){  
+					            RadioButton radioButton = (RadioButton)p_rg_option.getChildAt(i);  
+					            if(question.getOption().get(i).getOptionIsCorrent().equals("0")){
+					            	Drawable drawable_n = getResources().getDrawable(R.drawable.ui_icon_chose_current);
+					            	drawable_n.setBounds(0, 0, drawable_n.getMinimumWidth(),drawable_n.getMinimumHeight());  //此为必须写的
+					            	radioButton.setCompoundDrawables(drawable_n, null, null, null);
+					            }
+					            if(!todo.equals("view")){
+					            	if(getExerciseReturn.getAnswerStatus().equals("错误")){
+										lastButton.setBackgroundColor(0xFFF72B2B);
+							            if(radioButton.getTag().equals(getExerciseReturn.getLearnPracAnsRecordEntityList().get(0).getOptionId())){ 
+							            	Drawable drawable_n = getResources().getDrawable(R.drawable.ui_icon_chose_error);
+							            	drawable_n.setBounds(0, 0, drawable_n.getMinimumWidth(),drawable_n.getMinimumHeight());  //此为必须写的
+							            	radioButton.setTextColor(R.drawable.blue);
+							            	radioButton.setCompoundDrawables(drawable_n, null, null, null);
+							            }
+						            }else{
+										lastButton.setBackgroundColor(0xFF80FF80);
+						            }
+					            }
+					        }  
+						}else if(question.getType().equals("2")){
+			            	Drawable drawable_current = getResources().getDrawable(R.drawable.ui_icon_chose_current);
+			            	drawable_current.setBounds(0, 0, drawable_current.getMinimumWidth(),drawable_current.getMinimumHeight());  //此为必须写的
+			            	Drawable drawable_error = getResources().getDrawable(R.drawable.ui_icon_chose_error);
+			            	drawable_error.setBounds(0, 0, drawable_error.getMinimumWidth(),drawable_error.getMinimumHeight());  //此为必须写的
+			            	Map<String, Object> m=new HashMap<String, Object>();
+		            		String [] optionids=null;
+		            		if(getExerciseReturn.getLearnPracAnsRecordEntityList()!=null){
+		            			optionids=getExerciseReturn.getLearnPracAnsRecordEntityList().get(0).getOptionId().split("&");
+		            			if(optionids!=null&&optionids.length>0){
+			            			for(int j=0;j<optionids.length;j++){
+			            				m.put(optionids[j], optionids[j]);
+			            			}
+			            		}
+		            		}
+		            		
+		            		
+							for(int i=0;i<p_ll_option.getChildCount();i++){  
+					            CheckBox checkBox = (CheckBox)p_ll_option.getChildAt(i);  
+					            if(!todo.equals("view")){
+					            	if(getExerciseReturn.getLearnPracAnsRecordEntityList()!=null){
+					            		if(m.get(checkBox.getTag())!=null){ 
+							            	checkBox.setCompoundDrawables(drawable_error, null, null, null);
+							            	checkBox.setTextColor(R.drawable.blue);
+							            }
+					            	}
+					            }
+					            if(question.getOption().get(i).getOptionIsCorrent().equals("0")){
+					            	checkBox.setCompoundDrawables(drawable_current, null, null, null);
+					            }
+					        }  
+						}else if(question.getType().equals("3")){
+							for(int i=0;i<p_rg_option.getChildCount();i++){  
+					            RadioButton radioButton = (RadioButton)p_rg_option.getChildAt(i);  
+					            if(question.getAnswer().getContent().equals(i+"")){
+					            	Drawable drawable_n = getResources().getDrawable(R.drawable.ui_icon_chose_current);
+					            	drawable_n.setBounds(0, 0, drawable_n.getMinimumWidth(),drawable_n.getMinimumHeight());  //此为必须写的
+					            	radioButton.setCompoundDrawables(drawable_n, null, null, null);
+					            }
+					            if(!todo.equals("view")){
+					            	if(getExerciseReturn.getAnswerStatus().equals("错误")){
+							            if(radioButton.getTag().equals(getExerciseReturn.getLearnPracAnsRecordEntityList().get(0).getOptionId())){ 
+							            	Drawable drawable_n = getResources().getDrawable(R.drawable.ui_icon_chose_error);
+							            	drawable_n.setBounds(0, 0, drawable_n.getMinimumWidth(),drawable_n.getMinimumHeight());  //此为必须写的
+							            	radioButton.setTextColor(R.drawable.blue);
+							            	radioButton.setCompoundDrawables(drawable_n, null, null, null);
+							            }
+						            }
+					            }
+					        }  
+						}
+						
+						btn.setEnabled(false);
+						//DLPracticeAnswerModel learnPracAnsRecordEntity=learnPracAnsRecordEntityList.get(0);
+						TextView p_tv_jx=(TextView)findViewById(R.id.p_tv_jx);
+						
+						String explain="略";
+						if(question.getExplain()!=null){
+							explain=question.getExplain().getContent();
+						}
+						p_tv_jx.setText(explain);
+						String zsd="";
+						if(question.getCoursenodes()!=null&&question.getCoursenodes().size()>0){
+							for(int i=0;i<question.getCoursenodes().size();i++){
+								zsd+=" "+question.getCoursenodes().get(i).getNodename();
+							}
+						}
+						TextView p_tv_zsd=(TextView)findViewById(R.id.p_tv_zsd);
+						p_tv_zsd.setText(zsd);
+						if (Integer.parseInt(question.getType())<=3) {
+							TextView p_tv_zql=(TextView)findViewById(R.id.p_tv_zql);
+							TextView p_tv_dtcs=(TextView)findViewById(R.id.p_tv_dtcs);
+							TextView p_tv_zq=(TextView)findViewById(R.id.p_tv_zq);
+							TextView p_tv_cw=(TextView)findViewById(R.id.p_tv_cw);
+							TextView p_tv_zjyc=(TextView)findViewById(R.id.p_tv_zjyc);
+							p_tv_zql.setText(getExerciseReturn.getRightCount());
+							p_tv_dtcs.setText(getExerciseReturn.getSum());
+							p_tv_zq.setText(getExerciseReturn.getRightCount());
+							p_tv_cw.setText(getExerciseReturn.getWrongCount());
+							p_tv_zjyc.setText(getExerciseReturn.getAnswerStatus());
+							p_ll_tj.setVisibility(View.VISIBLE);
+						}
+						llyout.setVisibility(View.VISIBLE); 
+						learnPracAnsRecordList=getExerciseReturn.getLearnPracAnsRecordList();
+					}
+				//}
+			}else {
+				sendMessage(2);
+			}
+    	    
+		} catch (Exception e) {
+			e.printStackTrace();
+			sendMessage(2);
+		}
+	}
+	 
+	public void getData(){
+		new Thread(new Runnable() {
+            @Override  
+            public void run() { 
+            	Map<String,Object> map = new HashMap<String,Object>(0);
+				map.put("exerciseStatus", exerciseStatus);
+				map.put("todo", todo);
+				map.put("batchId", hdaplication.getBatchId());
+				map.put("type", "0");
+            	map.put("coursewareId", hdaplication.getCoursewareId());
+            	map.put("classId", hdaplication.getClassId());
+            	map.put("behaviorId", hdaplication.getBehaviorId());
+            	map.put("accountId", hdaplication.getStuid());
+            	map.put("questionForm", questionForm);
+            	String result = HttpUtil.getResultByPost(FinalStr.ACCESSPRYPATH+"/appControler.do?gotoExercise", 
+            			map,PracticActivity.this,null);
+            	if(SysUtil.isBlank(result) || "NO_NET".equals(result)){
+            		sendMessage(0);           		
+				}else{
+					GotoExerciseReturn gotoExerciseReturn=JsonUtil.parserString(result, GotoExerciseReturn.class);
+					if(gotoExerciseReturn!=null){
+						questionId=gotoExerciseReturn.getCurrentQuestionId();
+						hdaplication.setBatchId(gotoExerciseReturn.getBatchId());
+						exerciseCard=gotoExerciseReturn.getExerciseCard();
+						String correctIds=gotoExerciseReturn.getCorrectIds();
+						int count=0;
+						if (correctIds!=null&&!correctIds.equals("")) {
+							String[] correctStrings=correctIds.split("#");
+							if(correctStrings!=null){
+								count=count+correctStrings.length;
+								for(int i=0;i<correctStrings.length;i++){
+									correctIdsAndErrorIds.put(correctStrings[i], "正确");
+								}
+							}
+						}
+						String errorIds=gotoExerciseReturn.getErrorIds();
+						if (errorIds!=null&&!errorIds.equals("")) {
+							String[] errorStrings=errorIds.split("#");
+							if(errorStrings!=null){
+								count=count+errorStrings.length;
+								for(int i=0;i<errorStrings.length;i++){
+									correctIdsAndErrorIds.put(errorStrings[i], "错误");
+								}
+							}
+						}
+						unfinishedQuestionCount=allQuestionCount-count;
+						String signQuestionIds=gotoExerciseReturn.getSignQuestionIds();
+						if (signQuestionIds!=null&&!signQuestionIds.equals("")) {
+							String[] signStrings=signQuestionIds.split("#");
+							if(signStrings!=null){
+								signQuestionCount=signStrings.length;
+								for(int i=0;i<signStrings.length;i++){
+									signQuestionMap.put(signStrings[i], "标记");
+								}
+							}
+						}
+						String errorQuestionIds=gotoExerciseReturn.getErrorQuestionIdsStr();
+						if (errorQuestionIds!=null&&!errorQuestionIds.equals("")) {
+							String[] errorStrings=errorQuestionIds.split("#");
+							if(errorStrings!=null){
+								for(int i=0;i<errorStrings.length;i++){
+									if (errorQuestionMap.get(errorStrings[i])==null) {
+										errorQuestionMap.put(errorStrings[i], "错题");
+									}
+								}
+								errorQuestionCount=errorQuestionMap.size();
+							}
+						}
+						getData2();
+						sendMessage(3);
+					}else{
+						sendMessage(0);
+					}
+				}
+            }  
+        }).start();	
+	}
+	
+	public void getData2(){
+		new Thread(new Runnable() {
+            @Override  
+            public void run() { 
+            	Map<String,Object> map = new HashMap<String,Object>(0);
+				map.put("todo", todo);
+				map.put("batchId", hdaplication.getBatchId());
+				map.put("type", "0");
+            	map.put("coursewareId", hdaplication.getCoursewareId());
+            	map.put("classId", hdaplication.getClassId());
+            	map.put("behaviorId", hdaplication.getBehaviorId());
+            	map.put("accountId", hdaplication.getStuid());
+            	map.put("questionId", questionId);
+            	map.put("questionForm", questionForm);
+            	String result = HttpUtil.getResultByPost(FinalStr.ACCESSPRYPATH+"/appControler.do?getExerciseQuestion", 
+            			map,PracticActivity.this,null);
+            	if(SysUtil.isBlank(result) || "NO_NET".equals(result)){
+            		sendMessage(0);           		
+				}else{
+					getExerciseReturn=JsonUtil.parserString(result, GetExerciseReturn.class);
+					if(getExerciseReturn!=null){
+						sendMessage(1);
+					}else{
+						sendMessage(0);
+					}
+				}
+            }  
+        }).start();	
+	}
+	
+	public void getData3(){//提交
+		new Thread(new Runnable() {
+            @Override  
+            public void run() { 
+            	Map<String,Object> map = new HashMap<String,Object>(0);
+				map.put("optionId", optionId);//题目类型#题目主键&选项主键
+				map.put("todo", todo);
+				map.put("batchId", hdaplication.getBatchId());
+				map.put("type", "0");
+            	map.put("coursewareId", hdaplication.getCoursewareId());
+            	map.put("classId", hdaplication.getClassId());
+            	map.put("behaviorId", hdaplication.getBehaviorId());
+            	map.put("accountId", hdaplication.getStuid());
+            	map.put("questionId", questionId);
+            	map.put("questionType", "1");
+            	String result = HttpUtil.getResultByPost(FinalStr.ACCESSPRYPATH+"/appControler.do?submitExerciseQuestion", 
+            			map,PracticActivity.this,null);
+            	if(SysUtil.isBlank(result) || "NO_NET".equals(result)){
+            		sendMessage(0);           		
+				}else{
+					SubmitExerciseReturn submitExerciseReturn=JsonUtil.parserString(result, SubmitExerciseReturn.class);
+					if(submitExerciseReturn!=null){
+						List<String> answerConditionList=submitExerciseReturn.getAnswerConditionList();
+						if (answerConditionList!=null&&answerConditionList.size()>0) {
+							String [] arrStrings=answerConditionList.get(0).split("#");
+							if(arrStrings[0].equals("3")){
+								 isright = arrStrings[3];
+								 rightCount =arrStrings[4];
+							}else {
+								 isright = arrStrings[5];
+								 rightCount =arrStrings[6];
+							}
+							if(isright.equals("true")){
+								correctIdsAndErrorIds.put(questionId, "正确");
+								questionId=getExerciseReturn.getNextQuestion().getId();
+							}else {
+								correctIdsAndErrorIds.put(questionId, "错误");
+								if(errorQuestionMap.get(questionId)==null||!errorQuestionMap.get(questionId).equals("错题")){
+									errorQuestionMap.put(questionId,"错题");
+									errorQuestionCount++;
+								}
+							}
+							sendMessage(4);
+						}
+						getData2();
+					}else{
+						sendMessage(0);
+					}
+					
+				}
+            }  
+        }).start();	
+	}
+	
+	public void getData4(){//标记
+		new Thread(new Runnable() {
+            @Override  
+            public void run() { 
+            	Map<String,Object> map = new HashMap<String,Object>(0);
+            	map.put("coursewareId", hdaplication.getCoursewareId());
+            	map.put("classId", hdaplication.getClassId());
+            	map.put("behaviorId", hdaplication.getBehaviorId());
+            	map.put("accountId", hdaplication.getStuid());
+            	map.put("questionId", questionId);
+            	String result = HttpUtil.getResultByPost(FinalStr.ACCESSPRYPATH+"/appControler.do?signQuestion", 
+            			map,PracticActivity.this,null);
+            	if(SysUtil.isBlank(result) || "NO_NET".equals(result)){
+            		sendMessage(0);           		
+				}else{
+					signString="修改标记失败";
+					if(result.equals("\"标记成功\"")){
+						signQuestionMap.put(questionId, "标记");
+						signQuestionCount++;
+						signString="标记成功";
+					}else if(result.equals("\"取消标记成功\"")){
+						signQuestionMap.remove(questionId);
+						signQuestionCount--;
+						signString="取消标记成功";
+					}
+					sendMessage(5);
+				}
+            }  
+        }).start();	
+	}
+	
+	private void sendMessage(int str){
+		Message msg = new Message();
+		msg.what = str;
+		PracticActivity.this.handler.sendMessage(msg);  
+	}
+	
+	@Override
+	public void onCheckedChanged(RadioGroup radioGroup, int id) {
+		exerciseStatus="continue";
+		if(id==R.id.p_questionSum){
+			questionForm="0";
+		}else if(id==R.id.p_questionNodo){
+			questionForm="1";
+		}else if(id==R.id.p_questionSign){
+			questionForm="3";
+		}else if(id==R.id.p_questionWrong){
+			questionForm="2";
+		}
+		getData();
+	}
+	
+	public void click(View v){
+		if(v.getId()==R.id.p_btn_syt){//上一题
+			if(getExerciseReturn.getLastQuestion()!=null){
+				setExerciseCorlor2(questionId);
+				questionId=getExerciseReturn.getLastQuestion().getId();
+				getData2();
+			}else {
+				Toast.makeText(PracticActivity.this, "当前题是第一题！", Toast.LENGTH_LONG).show();
+			}
+		}else if(v.getId()==R.id.p_btn_tj){//提交
+			String str="";
+			optionId="";
+			if(getExerciseReturn.getCurrentQuesiton().getType().equals("1")||getExerciseReturn.getCurrentQuesiton().getType().equals("3")){
+				for(int i=0;i<p_rg_option.getChildCount();i++){  
+		            RadioButton radioButton = (RadioButton)p_rg_option.getChildAt(i);  
+		            if(radioButton.isChecked()){ 
+		            	optionId=str+(String) radioButton.getTag();
+		            }  
+		        } 
+			}else if(getExerciseReturn.getCurrentQuesiton().getType().equals("2")){
+				for (CheckBox checkbox : checkBoxList) {
+                    if (checkbox.isChecked()){
+		            	optionId=optionId+str+(String) checkbox.getTag();
+	                    str="&";
+                    }
+                }
+			}
+            if(optionId!=null&&!optionId.equals("")){
+            	optionId=getExerciseReturn.getCurrentQuesiton().getType()+"#"+questionId+"&"+optionId;
+        		unfinishedQuestionCount--;
+    			getData3();
+            }else {
+            	if (getExerciseReturn.getCurrentQuesiton().getType().equals("5")||getExerciseReturn.getCurrentQuesiton().getType().equals("7")||getExerciseReturn.getCurrentQuesiton().getType().equals("8")) {
+            		optionId=getExerciseReturn.getCurrentQuesiton().getType();
+            		unfinishedQuestionCount--;
+        			getData3();
+				}else {
+					Toast.makeText(PracticActivity.this, "请选择后再提交！", Toast.LENGTH_LONG).show();
+				}
+			}
+		}else if(v.getId()==R.id.p_btn_xyt){//下一题
+			if(getExerciseReturn.getNextQuestion()!=null){
+				setExerciseCorlor2(questionId);
+				questionId=getExerciseReturn.getNextQuestion().getId();
+				getData2();
+			}else {
+				Toast.makeText(PracticActivity.this, "当前题是最后一道题！", Toast.LENGTH_LONG).show();
+			}
+		}else if (v.getId()==R.id.p_btn_sign) {//标记
+			getData4();
+		}else if (v.getId()==R.id.p_btn_exerciseCard) {//答题卡
+			mdrawerLayout.openDrawer(Gravity.START);
+		}else if(v.getId()==R.id.p_retrun) {
+			this.finish();
+		}else {
+			setExerciseCorlor2(questionId);
+			String exe=(String) v.getTag();
+			String [] strings=exe.split("#");
+			if(strings!=null&&strings.length==2){
+				questionId=strings[0];
+			}
+			mdrawerLayout.closeDrawers();
+			getData2();
+		}
+	}
+	
+	
+	public void setExerciseCordList(){
+		try {
+    	    if(exerciseCard!=null){
+    	    	pe_ll.removeAllViews();
+    	    	List<ResQuestionTypeRuleModel> questionsList=exerciseCard.getQuestionsList();
+    	    	String type="";
+    	    	if(questionsList!=null&&questionsList.size()>0){
+    	    		for(int i=0;i<questionsList.size();i++){
+    	    			if(questionsList.get(i).getPaperQuestionType().equals("单选题")){
+    	    				type="1";
+    	    			}else if(questionsList.get(i).getPaperQuestionType().equals("多选题")){
+    	    				type="2";
+    	    			}else if(questionsList.get(i).getPaperQuestionType().equals("判断题")){
+    	    				type="3";
+    	    			}else if(questionsList.get(i).getPaperQuestionType().equals("名词解释题")){
+    	    				type="8";
+    	    			}else if(questionsList.get(i).getPaperQuestionType().equals("简答题")){
+    	    				type="7";
+    	    			}else if(questionsList.get(i).getPaperQuestionType().equals("论述题")){
+    	    				type="5";
+    	    			}
+    	    			TextView tView=new TextView(getApplicationContext());
+    	    			tView.setText(questionsList.get(i).getPaperQuestionType());
+    	    			tView.setTextColor(R.style.ExerciseTitle);
+    	    			tView.setPadding(10, 25, 10, 10);
+						pe_ll.addView(tView);
+    	    			ArrayList<Button> childBtns = new ArrayList<Button>();
+    	    			List<QuestionModel> questionList=questionsList.get(i).getQuestion();
+    	    			if(questionList!=null&&questionList.size()>0){
+    	    				int size = questionList.size(); // 添加Button的个数
+    	    				TableLayout.LayoutParams layoutParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT); // 每行的水平LinearLayout
+    	    				layoutParams.setMargins(10, 3, 10, 3); 
+    	    				TableRow llayout = null;
+    	    				for(int j=0;j<size;j++){
+    	    					TableRow.LayoutParams itemParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
+    	    					itemParams.setMargins(3, 3, 3, 3);
+    	    					String result="";
+    	    					
+    	    					if(j%5==0){
+    	    						llayout=new TableRow(getApplicationContext());
+    	    					}
+    	    					String idString=type+""+questionList.get(j).getQuestionIndex();
+	    						int id=Integer.parseInt(idString);
+	    						Button childBtn = (Button) LayoutInflater.from(this).inflate(R.layout.exercise_button, null);
+	    						childBtn.setText(questionList.get(j).getQuestionIndex());
+    	    					childBtn.setTag(questionList.get(j).getId()+"#"+questionsList.get(i).getPaperQuestionType());
+    	    					result=(String) correctIdsAndErrorIds.get(questionList.get(j).getId());
+    	    					if(result!=null&&result.equals("正确")){
+    	    						childBtn.setBackgroundColor(0xFF80FF80);
+    	    					}else if (result!=null&&result.equals("错误")) {
+    	    						childBtn.setBackgroundColor(0xFFF72B2B);
+								}
+    	    					childBtn.setId(id);
+    	    					childBtn.setLayoutParams(itemParams);
+    	    					llayout.addView(childBtn);
+    	    					if (j%5==4||j==questionList.size()-1) {
+    	    						pe_ll.addView(llayout);
+								}
+    	    				}
+    	    			}
+    	    		}
+    	    	}
+    	    }
+		} catch (Exception e) {
+			e.printStackTrace();
+			sendMessage(2);
+		}
+	}
+
+	public void setExerciseCorlor() {
+		if(isright.equals("true")){
+			lastButton.setBackgroundColor(0xFF80FF80);
+		}else {
+			lastButton.setBackgroundColor(0xFFF72B2B);
+		}
+	}
+	
+	public void setExerciseCorlor2(String qId) {
+		if(correctIdsAndErrorIds.get(qId)==null||todo.equals("view")){
+			Drawable drawable_n = getResources().getDrawable(R.drawable.black);
+	    	drawable_n.setBounds(0, 0, drawable_n.getMinimumWidth(),drawable_n.getMinimumHeight());  //此为必须写的
+	    	lastButton.setBackground(drawable_n);
+		}
+	}
+	
+	public void setSign(){
+		if(signString.equals("标记成功")){
+			tv.setText("取消标记");
+		}else if(signString.equals("取消标记成功")){
+			tv.setText("标记");
+		}
+		Toast.makeText(PracticActivity.this, signString, Toast.LENGTH_LONG).show();
+		setTitletext();
+	}
+	 
+	public void setTitletext() {
+		p_questionSum.setText("全部（"+allQuestionCount+"）");
+		p_questionNodo.setText("未做（"+unfinishedQuestionCount+"）");
+		p_questionSign.setText("标记（"+signQuestionCount+"）");
+		p_questionWrong.setText("错题（"+errorQuestionCount+"）");
+		
+	}
+	
+	public void removeview() {
+		p_ll_option.removeAllViews();
+		pq_tx.setText("");
+		pq_th.setText("");
+		pq_nr.setText("");
+	}
+	
+}

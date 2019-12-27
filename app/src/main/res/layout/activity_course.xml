@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical" >
+    <FrameLayout
+        android:id="@+id/course_fl"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+    <RelativeLayout
+        android:id="@+id/course_rl"
+        android:layout_alignParentBottom="true"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp">
+
+        <TextView
+            android:id="@+id/course_tv"
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:background="@color/divider_color"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/course_tv"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/my_class_tab"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/my_class_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/icon_my_class"
+                    style="@style/extra_xlarge_textSize"
+                    android:textColor="@color/colorPrimary"/>
+                <TextView
+                    android:id="@+id/my_class_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="我的课程"
+                    style="@style/small_textSize"
+                    android:textColor="@color/colorPrimary"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/my_index_tab"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/my_index_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/icon_my_index"
+                    style="@style/extra_xlarge_textSize"
+                    android:textColor="@color/color_999999"/>
+                <TextView
+                    android:id="@+id/my_index_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="我的主页"
+                    style="@style/small_textSize"
+                    android:textColor="@color/color_999999"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>

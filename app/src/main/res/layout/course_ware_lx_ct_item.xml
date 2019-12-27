@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="58dp"
+    android:background="#ffffff"
+    android:descendantFocusability="blocksDescendants"
+    android:gravity="center_vertical"
+    android:paddingBottom="5dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="5dp" >
+
+    <TextView
+        android:id="@+id/ct_tvtitle"
+        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:text="不可移除错题"
+        android:textColor="#000"
+        android:gravity="center"
+        android:layout_alignParentLeft="true"
+        />
+    <ImageView
+        android:layout_height="50dp"
+        android:id="@+id/ct_iv"
+        android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
+        android:src="@drawable/right"
+        android:gravity="center"
+        android:layout_alignParentRight="true"/>
+    <TextView
+        android:id="@+id/ct_tv"
+        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:text="555题"
+        android:textColor="#000"
+        android:paddingRight="10dp"
+        android:gravity="center"
+        android:layout_toLeftOf="@id/ct_iv"
+        />
+</RelativeLayout>
